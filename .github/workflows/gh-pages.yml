@@ -3,22 +3,22 @@ name: github pages
 on:
   push:
     branches:
-      - main # main ブランチ の push 時にこのワークフローを実行する
+      - main
 
 jobs:
   build-deploy:
-    runs-on: ubuntu-latest # ubuntu OS を仮想マシン上に用意する
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup node # Node.js 環境のセットアップを行う
+      - name: Setup node
         uses: actions/setup-node@v3
         with:
           node-version: "16.x"
           cache: npm
 
-      - name: Cache dependencies # npm install の際にキャッシュを使うよう設定
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: |
@@ -28,20 +28,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      - name: Install dependencies # package.json に基づき依存パッケージをインストールする
+      - name: Install dependencies
         run: npm install --frozen-lockfile
 
-      - name: Build # Next.js アプリをビルドする: プロジェクトルート直下に .next ディレクトリができる
+      - name: Build
         run: npm run build
 
-      # しかし GitHub Pages の仕様として_から始まるディレクトリが見えず 404 となる
-      # つまり HTML から JS を読み込めない
-      # これを回避するために .nojekyll ファイルを out ディレクトリに作る
-      - name: add nojekyll
-        run: touch out/.nojekyll
-
-      # gh-pages ブランチに out ディレクトリの中身をプッシュする
-      # gh-pages ブランチは自動的に作成される
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
