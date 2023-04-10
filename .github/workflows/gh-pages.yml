@@ -34,12 +34,6 @@ jobs:
       - name: Build # Next.js アプリをビルドする: プロジェクトルート直下に .next ディレクトリができる
         run: npm run build
 
-      # 静的なHTMLとして Next.js アプリを生成する
-      # プロジェクトルート直下に out ディレクトリができる
-      # そのなかに HTML ファイル群と、それらが読み込む JS ファイル群を収めた _next ディレクトリがある
-      - name: Export
-        run: npm run export
-
       # しかし GitHub Pages の仕様として_から始まるディレクトリが見えず 404 となる
       # つまり HTML から JS を読み込めない
       # これを回避するために .nojekyll ファイルを out ディレクトリに作る
