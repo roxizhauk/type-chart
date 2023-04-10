@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: "Roboto Mono", monospace;
+  }
+
+  body {
+    @apply bg-cottoncandy flex h-screen overscroll-none text-slate-600;
+  }
+
+  main {
+    @apply mx-auto h-full w-full md:mt-2 md:h-auto md:max-w-3xl;
+  }
+
+  div.bento {
+    @apply mx-auto grid w-full grid-flow-row-dense grid-cols-4 place-items-center gap-2 p-2;
+  }
+
+  div.bento > div {
+    @apply flex h-full w-full items-center rounded-lg bg-white/10 p-2 drop-shadow-lg;
+    box-shadow: inset 0.05em 0.05em 0.05em rgba(255, 255, 255, 0.8),
+      inset 0.1em 0.1em 0.075em rgba(255, 255, 255, 0.4), 0.05em 0.05em 0.3em rgba(0, 0, 0, 0.2);
+  }
+}
+
+@layer components {
+  .bg-cottoncandy {
+    background: radial-gradient(
+      at left top,
+      rgb(249, 168, 212),
+      rgb(216, 180, 254),
+      rgb(129, 140, 248)
+    );
+  }
+
+  .focus-none:focus {
+    @apply outline-none ring-0 ring-transparent ring-opacity-0 ring-offset-0;
+  }
+
+  .focus-none2:focus {
+    @apply outline-none;
+  }
+
+  @import "./button.css";
+  @import "./egg-timer.css";
+  @import "./table.css";
+  @import "./type-colors.css";
+}

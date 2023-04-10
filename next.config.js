@@ -3,6 +3,8 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
-}
+  // productionBrowserSourceMaps: true,
+  trailingSlash: true,
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

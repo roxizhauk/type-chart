@@ -1,0 +1,146 @@
+[
+  {
+    "id": 0,
+    "typeName": "Normal",
+    "colorName": "Neutral",
+    "colorPoint": 400,
+    "typeEffect": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 0, 1, 1, 0.5, 1],
+    "typeDamage": [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1]
+  },
+  {
+    "id": 1,
+    "typeName": "Fire",
+    "colorName": "Orange",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 0.5, 1, 2, 2, 1, 1, 1, 1, 1, 2, 0.5, 1, 0.5, 1, 2, 1],
+    "typeDamage": [1, 0.5, 2, 1, 0.5, 0.5, 1, 1, 2, 1, 1, 0.5, 2, 1, 1, 1, 0.5, 0.5]
+  },
+  {
+    "id": 2,
+    "typeName": "Water",
+    "colorName": "Blue",
+    "colorPoint": 400,
+    "typeEffect": [1, 2, 0.5, 1, 0.5, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0.5, 1, 1, 1],
+    "typeDamage": [1, 0.5, 0.5, 2, 2, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5, 1]
+  },
+  {
+    "id": 3,
+    "typeName": "Electric",
+    "colorName": "Yellow",
+    "colorPoint": 400,
+    "typeEffect": [1, 1, 2, 0.5, 0.5, 1, 1, 1, 0, 2, 1, 1, 1, 1, 0.5, 1, 1, 1],
+    "typeDamage": [1, 1, 1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 0.5, 1]
+  },
+  {
+    "id": 4,
+    "typeName": "Grass",
+    "colorName": "Lime",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 2, 1, 0.5, 1, 1, 0.5, 2, 0.5, 1, 0.5, 2, 1, 0.5, 1, 0.5, 1],
+    "typeDamage": [1, 2, 0.5, 0.5, 0.5, 2, 1, 2, 0.5, 2, 1, 2, 1, 1, 1, 1, 1, 1]
+  },
+  {
+    "id": 5,
+    "typeName": "Ice",
+    "colorName": "Cyan",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 0.5, 1, 2, 0.5, 1, 1, 2, 2, 1, 1, 1, 1, 2, 1, 0.5, 1],
+    "typeDamage": [1, 2, 1, 1, 1, 0.5, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1]
+  },
+  {
+    "id": 6,
+    "typeName": "Fighting",
+    "colorName": "Red",
+    "colorPoint": 400,
+    "typeEffect": [2, 1, 1, 1, 1, 2, 1, 0.5, 1, 0.5, 0.5, 0.5, 2, 0, 1, 2, 2, 0.5],
+    "typeDamage": [1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 0.5, 1, 1, 0.5, 1, 2]
+  },
+  {
+    "id": 7,
+    "typeName": "Poison",
+    "colorName": "Violet",
+    "colorPoint": 400,
+    "typeEffect": [1, 1, 1, 1, 2, 1, 1, 0.5, 0.5, 1, 1, 1, 0.5, 0.5, 1, 1, 0, 2],
+    "typeDamage": [1, 1, 1, 1, 0.5, 1, 0.5, 0.5, 2, 1, 2, 0.5, 1, 1, 1, 1, 1, 0.5]
+  },
+  {
+    "id": 8,
+    "typeName": "Ground",
+    "colorName": "Yellow",
+    "colorPoint": 600,
+    "typeEffect": [1, 2, 1, 2, 0.5, 1, 1, 2, 1, 0, 1, 0.5, 2, 1, 1, 1, 2, 1],
+    "typeDamage": [1, 1, 2, 0, 2, 2, 1, 0.5, 1, 1, 1, 1, 0.5, 1, 1, 1, 1, 1]
+  },
+  {
+    "id": 9,
+    "typeName": "Flying",
+    "colorName": "Sky",
+    "colorPoint": 400,
+    "typeEffect": [1, 1, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 0.5, 1],
+    "typeDamage": [1, 1, 1, 2, 0.5, 2, 0.5, 1, 0, 1, 1, 0.5, 2, 1, 1, 1, 1, 1]
+  },
+  {
+    "id": 10,
+    "typeName": "Psychic",
+    "colorName": "Fuchsia",
+    "colorPoint": 400,
+    "typeEffect": [1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 0.5, 1, 1, 1, 1, 0, 0.5, 1],
+    "typeDamage": [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 0.5, 2, 1, 2, 1, 2, 1, 1]
+  },
+  {
+    "id": 11,
+    "typeName": "Bug",
+    "colorName": "Green",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 1, 1, 2, 1, 0.5, 0.5, 1, 0.5, 2, 1, 1, 0.5, 1, 2, 0.5, 0.5],
+    "typeDamage": [1, 2, 1, 1, 0.5, 1, 0.5, 1, 0.5, 2, 1, 1, 2, 1, 1, 1, 1, 1]
+  },
+  {
+    "id": 12,
+    "typeName": "Rock",
+    "colorName": "Stone",
+    "colorPoint": 400,
+    "typeEffect": [1, 2, 1, 1, 1, 2, 0.5, 1, 0.5, 2, 1, 2, 1, 1, 1, 1, 0.5, 1],
+    "typeDamage": [0.5, 0.5, 2, 1, 2, 1, 2, 0.5, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 1]
+  },
+  {
+    "id": 13,
+    "typeName": "Ghost",
+    "colorName": "Violet",
+    "colorPoint": 600,
+    "typeEffect": [0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 1],
+    "typeDamage": [0, 1, 1, 1, 1, 1, 0, 0.5, 1, 1, 1, 0.5, 1, 2, 1, 2, 1, 1]
+  },
+  {
+    "id": 14,
+    "typeName": "Dragon",
+    "colorName": "Blue",
+    "colorPoint": 600,
+    "typeEffect": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 0.5, 0],
+    "typeDamage": [1, 0.5, 0.5, 0.5, 0.5, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2]
+  },
+  {
+    "id": 15,
+    "typeName": "Dark",
+    "colorName": "Neutral",
+    "colorPoint": 600,
+    "typeEffect": [1, 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 2, 1, 1, 2, 1, 0.5, 1, 0.5],
+    "typeDamage": [1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0, 2, 1, 0.5, 1, 0.5, 1, 2]
+  },
+  {
+    "id": 16,
+    "typeName": "Steel",
+    "colorName": "Slate",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 0.5, 0.5, 1, 2, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 2],
+    "typeDamage": [0.5, 2, 1, 1, 0.5, 0.5, 2, 0, 2, 0.5, 0.5, 0.5, 0.5, 1, 0.5, 1, 0.5, 0.5]
+  },
+  {
+    "id": 17,
+    "typeName": "Fairy",
+    "colorName": "Pink",
+    "colorPoint": 400,
+    "typeEffect": [1, 0.5, 1, 1, 1, 1, 2, 0.5, 1, 1, 1, 1, 1, 1, 2, 2, 0.5, 1],
+    "typeDamage": [1, 1, 1, 1, 1, 1, 0.5, 2, 1, 1, 1, 0.5, 1, 1, 0, 0.5, 2, 1]
+  }
+]
