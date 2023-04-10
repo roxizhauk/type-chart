@@ -3,7 +3,7 @@ name: github pages
 on:
   push:
     branches:
-      - master # main ブランチ の push 時にこのワークフローを実行する
+      - main # main ブランチ の push 時にこのワークフローを実行する
 
 jobs:
   build-deploy:
