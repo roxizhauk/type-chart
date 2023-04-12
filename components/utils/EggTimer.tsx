@@ -1,123 +1,116 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import useTimer from "@/hooks/useTimer";
 
-const EggTimer = () => {
-  const [time30, setTime30] = useState([29, 40]);
-  const [time05, setTime05] = useState([4, 40]);
+function EggTimer() {
+  const [time, setTime] = useState([29, 40]);
+  const [time2, setTime2] = useState([4, 40]);
 
+  const { currentTime, timer, isRun, setIsRun } = useTimer(time);
   const {
-    currentTime: currentTime30,
-    timer: timer30,
-    isRun: isRun30,
-    setIsRun: setIsRun30,
-  } = useTimer(time30);
+    initialTime: currentTime2,
+    timer: timer2,
+    isRun: isRun2,
+    setIsRun: setIsRun2,
+  } = useTimer(time2);
 
-  const {
-    initialTime: currentTime05,
-    timer: timer05,
-    isRun: isRun05,
-    setIsRun: setIsRun05,
-  } = useTimer(time05);
+  const runAll = useCallback(() => {
+    setIsRun(true);
+    setIsRun2(true);
+  }, [setIsRun, setIsRun2]);
+
+  const resetAll = useCallback(() => {
+    setIsRun(false);
+    setIsRun2(false);
+  }, [setIsRun, setIsRun2]);
+
+  const runTimer2 = useCallback(() => setIsRun2(true), [setIsRun2]);
 
   const isHidden = useRef(false);
-
-  const runTimer05 = useCallback(() => setIsRun05(true), [setIsRun05]);
-
-  const runTimers = useCallback(() => {
-    setIsRun30(true);
-    setIsRun05(true);
-  }, [setIsRun30, setIsRun05]);
-
-  const killTimers = useCallback(() => {
-    setIsRun30(false);
-    setIsRun05(false);
-  }, [setIsRun30, setIsRun05]);
-
   useEffect(() => {
-    if (currentTime30 <= currentTime05) {
+    if (currentTime <= currentTime2) {
       isHidden.current = true;
-      setIsRun05(false);
+      setIsRun2(false);
     }
-  }, [currentTime30, currentTime05, setIsRun05]);
+  }, [currentTime, currentTime2, setIsRun2]);
 
   return (
     <>
       <div className="egg-timer">
-        {isRun30 ? (
-          <span className="egg-timer-text-1">{timer30}</span>
+        {isRun ? (
+          <span className="egg-timer-text-1">{timer}</span>
         ) : (
           <div className="egg-timer-text-1">
             <input
               type="number"
               inputMode="numeric"
-              value={("00" + time30[0]).slice(-2)}
+              value={("00" + time[0]).slice(-2)}
               onChange={(e) => {
                 const num = parseFloat(e.target.value);
                 if (num > 99 || num < 0) return;
-                setTime30((x) => [num, x[1]]);
+                setTime((x) => [num, x[1]]);
               }}
             />
             <span>:</span>
             <input
               type="number"
               inputMode="numeric"
-              value={("00" + time30[1]).slice(-2)}
+              value={("00" + time[1]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
                 if (num > 59) num = 0;
                 if (num < 0) num = 59;
-                setTime30((x) => [x[0], num]);
+                setTime((x) => [x[0], num]);
               }}
             />
           </div>
         )}
       </div>
       <div className="egg-timer">
-        {isRun30 ? (
-          <span className="egg-timer-text-2">{currentTime30 > currentTime05 && timer05}</span>
+        {isRun ? (
+          <span className="egg-timer-text-2">{currentTime > currentTime2 && timer2}</span>
         ) : (
           <div className="egg-timer-text-2">
             <input
               type="number"
               inputMode="numeric"
-              value={("00" + time05[0]).slice(-2)}
+              value={("00" + time2[0]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
                 if (num > 99 || num < 0) return;
-                setTime05((x) => [num, x[1]]);
+                setTime2((x) => [num, x[1]]);
               }}
             />
             <span>:</span>
             <input
               type="number"
               inputMode="numeric"
-              value={("00" + time05[1]).slice(-2)}
+              value={("00" + time2[1]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
                 if (num > 59) num = 0;
                 if (num < 0) num = 59;
-                return setTime05((x) => [x[0], num]);
+                return setTime2((x) => [x[0], num]);
               }}
             />
           </div>
         )}
       </div>
       <div>
-        {isRun30 ? (
-          <input type="button" className="btn btn-light" onClick={killTimers} value="Reset" />
+        {isRun ? (
+          <input type="button" className="btn btn-light" onClick={resetAll} value="Reset" />
         ) : (
-          <input type="button" className="btn btn-blue" onClick={runTimers} value="Run" />
+          <input type="button" className="btn btn-blue" onClick={runAll} value="Run" />
         )}
       </div>
       <div>
-        {isRun30 && !isRun05 && !isHidden.current && (
-          <input type="button" className="btn btn-pink" onClick={runTimer05} value="Run" />
+        {isRun && !isRun2 && !isHidden.current && (
+          <input type="button" className="btn btn-pink" onClick={runTimer2} value="Run" />
         )}
       </div>
     </>
   );
-};
+}
 
-export default EggTimer;
+export default memo(EggTimer);
