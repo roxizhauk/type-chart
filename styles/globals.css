@@ -10,7 +10,7 @@
   }
 
   body {
-    @apply bg-cottoncandy flex h-screen overscroll-none text-slate-600;
+    @apply bg-cottoncandy flex h-screen overscroll-none text-gray-500;
   }
 
   main {

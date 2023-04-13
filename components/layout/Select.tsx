@@ -71,7 +71,7 @@ function Select<T>({
       <div
         className={
           (className ?? "") +
-          " relative flex cursor-pointer items-center justify-between gap-x-2 rounded-md border border-white bg-slate-100 py-1.5 px-2 hover:bg-slate-50"
+          " relative flex cursor-pointer items-center justify-between gap-x-2 rounded-md border border-white bg-slate-50 px-2 py-1.5 hover:bg-slate-100"
         }
         onClick={() => setShowMenu(true)}
       >
@@ -108,9 +108,12 @@ function Select<T>({
         </div>
         <div className="my-auto flex gap-x-2 divide-x divide-white place-self-end">
           {defaultValue.length > 0 && isMulti && (
-            <XMarkIcon className="w-4" onClick={() => dispatch({ type: "CLEAR" })} />
+            <XMarkIcon
+              className="w-4 [&>path]:stroke-[3]"
+              onClick={() => dispatch({ type: "CLEAR" })}
+            />
           )}
-          <ChevronDownIcon className="w-6 pl-2" />
+          <ChevronDownIcon className="h-6 w-6 pl-2 [&>path]:stroke-[3]" />
         </div>
       </div>
       {showMenu && ( // css => showMenu ? "" : "hidden" にすると常時 useEffect が作動する
@@ -124,7 +127,7 @@ function Select<T>({
               return (
                 <div
                   className={
-                    "py-1 pr-5 pl-2 hover:rounded-md hover:bg-blue-500/90 hover:text-white"
+                    "py-1 pl-2 pr-5 hover:rounded-md hover:bg-blue-500/90 hover:text-white"
                   }
                   key={option.value}
                   onClick={() => dispatch({ type: "SELECT", option, isMulti })}
