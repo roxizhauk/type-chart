@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import useTimer from "@/hooks/useTimer";
 
 function EggTimer() {
@@ -15,25 +15,31 @@ function EggTimer() {
     setIsRun: setIsRun2,
   } = useTimer(time2);
 
-  const runAll = useCallback(() => {
+  const start = useCallback(() => {
     setIsRun(true);
     setIsRun2(true);
   }, [setIsRun, setIsRun2]);
 
-  const resetAll = useCallback(() => {
-    setIsRun(false);
-    setIsRun2(false);
-  }, [setIsRun, setIsRun2]);
+  const reset = useCallback(() => setIsRun(false), [setIsRun]);
+
+  // const resetAll = useCallback(() => {
+  //   setIsRun(false);
+  //   setIsRun2(false);
+  // }, [setIsRun, setIsRun2]);
 
   const runTimer2 = useCallback(() => setIsRun2(true), [setIsRun2]);
 
-  const isHidden = useRef(false);
+  // const isHidden = useRef(false);
+  // useEffect(() => {
+  //   if (currentTime <= currentTime2) {
+  //     isHidden.current = true;
+  //     setIsRun2(false);
+  //   }
+  // }, [currentTime, currentTime2, setIsRun2]);
+
   useEffect(() => {
-    if (currentTime <= currentTime2) {
-      isHidden.current = true;
-      setIsRun2(false);
-    }
-  }, [currentTime, currentTime2, setIsRun2]);
+    if (!isRun) setIsRun2(false);
+  }, [isRun, setIsRun2]);
 
   return (
     <>
@@ -69,7 +75,8 @@ function EggTimer() {
       </div>
       <div className="egg-timer">
         {isRun ? (
-          <span className="egg-timer-text-2">{currentTime > currentTime2 && timer2}</span>
+          // <span className="egg-timer-text-2">{currentTime > currentTime2 && timer2}</span>
+          <span className="egg-timer-text-2">{timer2}</span>
         ) : (
           <div className="egg-timer-text-2">
             <input
@@ -99,14 +106,16 @@ function EggTimer() {
       </div>
       <div>
         {isRun ? (
-          <input type="button" className="btn btn-light" onClick={resetAll} value="Reset" />
+          !isRun2 && (
+            <input type="button" className="btn btn-pink" onClick={runTimer2} value="Run" />
+          )
         ) : (
-          <input type="button" className="btn btn-blue" onClick={runAll} value="Run" />
+          <input type="button" className="btn btn-blue" onClick={start} value="Start" />
         )}
       </div>
       <div>
-        {isRun && !isRun2 && !isHidden.current && (
-          <input type="button" className="btn btn-pink" onClick={runTimer2} value="Run" />
+        {isRun && (
+          <input type="button" className="btn btn-light" onClick={reset} value="Reset" />
         )}
       </div>
     </>
