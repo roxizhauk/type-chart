@@ -94,7 +94,7 @@ function TypeChecker() {
         </div>
       </div>
       <div className="col-span-3 md:col-span-2">
-        <div className="ml-1 overflow-x-auto whitespace-nowrap font-medium text-blue-500">
+        <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium">
           {raidData}
         </div>
       </div>

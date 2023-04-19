@@ -72,12 +72,25 @@ export const genColor = (value: number) => {
   }
 };
 
-export const filterTypes = (name: string) =>
-  typeChart
-    .find(({ typeName }) => typeName == name)!
-    .typeDamage.map((v, i) => (v > 1 ? typeChart[i].typeName : undefined))
-    .filter((x) => x)
-    .join(", ");
+export const filterTypes = (raidTypeName: string) => {
+  // typeDamage
+  //   .map((v, i) => (v > 1 ? typeChart[i].typeName : undefined))
+  //   .filter((x) => x)
+  //   .join(", ");
+  const { typeDamage } = typeChart.find(({ typeName }) => typeName == raidTypeName)!;
+  const result = { pros: [], cons: [] } as { pros: string[]; cons: string[] };
+  typeDamage.map((v, i) => {
+    if (v > 1) result.pros.push(typeChart[i].typeName);
+    if (v < 1) result.cons.push(typeChart[i].typeName);
+    return;
+  });
+  return (
+    <>
+      <span className="text-good">{result.pros.join(" ")}</span>
+      <span className="text-bad">{result.cons.join(" ")}</span>
+    </>
+  );
+};
 
 export const tableHead = typeChart.map(({ typeName }, index) => (
   <div key={`th-${index + 1}`} className={typeChart.length == index + 1 ? "tr" : ""}>
