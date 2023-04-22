@@ -51,6 +51,7 @@ function EggTimer() {
             <input
               type="number"
               inputMode="numeric"
+              aria-label="hour-1"
               value={("00" + time[0]).slice(-2)}
               onChange={(e) => {
                 const num = parseFloat(e.target.value);
@@ -62,6 +63,7 @@ function EggTimer() {
             <input
               type="number"
               inputMode="numeric"
+              aria-label="min-1"
               value={("00" + time[1]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
@@ -82,6 +84,7 @@ function EggTimer() {
             <input
               type="number"
               inputMode="numeric"
+              aria-label="hour-2"
               value={("00" + time2[0]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
@@ -93,6 +96,7 @@ function EggTimer() {
             <input
               type="number"
               inputMode="numeric"
+              aria-label="min-2"
               value={("00" + time2[1]).slice(-2)}
               onChange={(e) => {
                 let num = parseFloat(e.target.value);
