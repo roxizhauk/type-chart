@@ -18,7 +18,7 @@ import {
   SteelIcon,
   FairyIcon,
 } from "./type-icons";
-import typeChart from "@/src/type-chart.json";
+import typeChart from "@/data/type-chart.json";
 import { Fragment } from "react";
 
 export const TYPE_ICONS = [

@@ -94,7 +94,7 @@ function TypeChecker() {
         </div>
       </div>
       <div className="col-span-3 md:col-span-2">
-        <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium">
+        <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium leading-tight">
           {raidData}
         </div>
       </div>
@@ -138,7 +138,7 @@ function TypeChecker() {
           <GridTable>
             <div>
               <div>
-                <span>😃</span>
+                <span className="text-transparent">😃</span>
               </div>
             </div>
             {tableHead}
