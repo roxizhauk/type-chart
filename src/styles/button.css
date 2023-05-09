@@ -1,7 +1,7 @@
 .btn {
-  @apply h-full w-full cursor-pointer rounded-md px-3 py-1 text-center
-  text-sm font-medium leading-none drop-shadow
-  sm:py-2 sm:text-base sm:leading-normal;
+  @apply h-full w-full cursor-pointer rounded-md p-1
+  text-center text-sm font-medium leading-none drop-shadow
+  sm:text-base;
 }
 
 .btn-blue {

@@ -1,16 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap");
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  html {
-    font-family: "Roboto Mono", monospace;
-  }
-
   body {
-    @apply bg-cottoncandy grid overscroll-none text-gray-500;
+    @apply bg-cottoncandy grid overscroll-none font-mono text-gray-500;
     grid-template-rows: 1fr auto;
     grid-template-columns: 100%;
     min-height: 100vh;
@@ -48,9 +42,9 @@
   .focus-none2:focus {
     @apply outline-none;
   }
-
-  @import "./button.css";
-  @import "./egg-timer.css";
-  @import "./table.css";
-  @import "./type-colors.css";
 }
+
+@import "./button.css";
+@import "./egg-timer.css";
+@import "./table.css";
+@import "./type-colors.css";

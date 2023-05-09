@@ -111,15 +111,21 @@ function EggTimer() {
       <div>
         {isRun ? (
           !isRun2 && (
-            <input type="button" className="btn btn-pink" onClick={runTimer2} value="Run" />
+            <button className="btn btn-pink" onClick={runTimer2}>
+              Run
+            </button>
           )
         ) : (
-          <input type="button" className="btn btn-blue" onClick={start} value="Start" />
+          <button className="btn btn-blue" onClick={start}>
+            Start
+          </button>
         )}
       </div>
       <div>
         {isRun && (
-          <input type="button" className="btn btn-light" onClick={reset} value="Reset" />
+          <button className="btn btn-light" onClick={reset}>
+            Reset
+          </button>
         )}
       </div>
     </>
