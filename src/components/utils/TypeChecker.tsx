@@ -84,7 +84,7 @@ function TypeChecker() {
   return (
     <>
       <div className="z-20 col-span-2 md:col-span-1">
-        <div className="w-full">
+        <div className="w-full drop-shadow">
           <Select
             placeholder="Select Raid Type..."
             options={options}
@@ -107,7 +107,7 @@ function TypeChecker() {
         </button>
       </div>
       <div className="z-10 col-span-4 md:col-span-2">
-        <div className="w-full">
+        <div className="w-full drop-shadow">
           <Select
             isMulti
             placeholder="Select Move Types..."

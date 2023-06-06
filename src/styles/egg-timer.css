@@ -14,9 +14,9 @@
 }
 
 .egg-timer-text-1 {
-  @apply text-blue-500 dark:text-blue-600;
+  @apply text-blue-500  dark:text-blue-600;
 }
 
 .egg-timer-text-2 {
-  @apply text-pink-400 dark:text-pink-500;
+  @apply text-pink-400  dark:text-pink-500;
 }

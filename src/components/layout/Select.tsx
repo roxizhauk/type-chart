@@ -71,7 +71,7 @@ function Select<T>({
       <div
         className={
           (className ?? "") +
-          " relative flex cursor-pointer items-center justify-between gap-x-2 rounded-md border border-white bg-slate-50 px-2 py-1.5 hover:bg-slate-100"
+          " hover:bg-slate relative flex cursor-pointer items-center justify-between gap-x-2 rounded-md border border-white bg-slate-50 px-2 py-1.5"
         }
         onClick={() => setShowMenu(true)}
       >

@@ -2,20 +2,24 @@
   @apply bg-red-400;
 }
 
-.text-bad {
-  @apply text-red-500;
-}
-
 .bg-good {
   @apply bg-sky-400;
 }
 
+.text-bad {
+  @apply text-red-500;
+}
+
 .text-good {
-  @apply text-sky-500;
+  @apply text-blue-500;
 }
 
 .bg-immune {
   @apply bg-amber-400;
+}
+
+.bg-immune2 {
+  @apply bg-slate-500;
 }
 
 .bg-normal {

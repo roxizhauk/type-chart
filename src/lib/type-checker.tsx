@@ -57,6 +57,36 @@ export const genIcon = (value: number) => {
   }
 };
 
+const genIconForAll = (value: number) => {
+  switch (value) {
+    case 2:
+      return "😆";
+    case 1:
+      return "";
+    case 0.5:
+      return "🥺";
+    case 0:
+      return "😭";
+    default:
+      return "";
+  }
+};
+
+const genColorForAll = (value: number) => {
+  switch (value) {
+    case 2:
+      return "bg-good";
+    case 1:
+      return "";
+    case 0.5:
+      return "bg-bad";
+    case 0:
+      return "bg-immune2";
+    default:
+      return "";
+  }
+};
+
 export const genColor = (value: number) => {
   switch (value) {
     case 2:
@@ -105,8 +135,8 @@ export const allTableRows = typeChart.map(({ typeName, typeEffect }, index) => (
     </div>
     {typeEffect.map((value, i) => (
       <div key={`td-${typeName}-${i + 1}`}>
-        <div className={genColor(value)}>
-          <span>{genIcon(value)}</span>
+        <div className={genColorForAll(value)}>
+          <span>{genIconForAll(value)}</span>
         </div>
       </div>
     ))}
