@@ -11,7 +11,7 @@
   }
 
   main {
-    @apply mx-auto h-full w-full md:my-2 md:h-auto md:max-w-3xl;
+    @apply mx-auto h-full w-full select-none md:my-2 md:h-auto md:max-w-3xl;
   }
 
   div.bento {
