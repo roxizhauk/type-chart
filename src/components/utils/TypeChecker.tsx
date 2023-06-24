@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback, memo, Fragment, useMemo } from "react";
-import Select from "@/components/layout/Select";
+// import Select from "@/components/layout/Select";
+import Select from "@/components/layout/select";
 import GridTable from "@/components/layout/GridTable";
 import {
   filterTypes,

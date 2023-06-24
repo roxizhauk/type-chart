@@ -1,0 +1,21 @@
+.select-body {
+  @apply relative flex cursor-pointer items-center justify-between gap-x-2
+  rounded-md border border-slate-50 bg-slate-100 px-2 py-1.5;
+}
+
+.select-item-unique {
+  @apply rounded-sm px-1.5 py-0.5 text-white;
+}
+
+.select-item-multi {
+  @apply inline-flex justify-between gap-x-1 rounded-sm py-0.5 pl-1.5 pr-1 text-white;
+}
+
+.select-menu-body {
+  @apply absolute mt-2 flex max-h-screen cursor-pointer flex-col overflow-visible overflow-y-auto
+  rounded-md border border-white bg-slate-100 p-2 drop-shadow;
+}
+
+.select-menu-item {
+  @apply py-1 pl-2 pr-5 hover:rounded-md hover:bg-blue-500/90 hover:text-white;
+}

@@ -1,9 +1,37 @@
-"use client";
-
+import "./style.css";
 import { useEffect, useReducer, useRef, useState, memo } from "react";
-import { XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 
-const THEME_COLOR = "bg-slate-500";
+const XMarkIcon = ({ className, onClick }: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={className}
+      onClick={onClick}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  );
+};
+
+const ChevronDownIcon = ({ className, onClick }: React.SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={className}
+      onClick={onClick}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
+  );
+};
 
 type SelectOption<T> = {
   value: string;
@@ -14,6 +42,7 @@ type SelectOption<T> = {
 interface SelectProps<Option> {
   className?: string;
   placeholder?: string;
+  themeColor?: string;
   isMulti?: boolean;
   options: Option[];
   defaultValue: Option[];
@@ -28,11 +57,25 @@ type Action<Option> =
 function Select<T>({
   className,
   placeholder,
+  themeColor,
   isMulti,
   options,
   defaultValue,
   onChange,
 }: SelectProps<SelectOption<T>>) {
+  const [showMenu, setShowMenu] = useState(false);
+  const insideRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = insideRef.current;
+    if (!el) return; // 対象の要素がなければ何もしない
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!showMenu || el?.contains(e.target as Node)) return;
+      setShowMenu(false); // 外側をクリックしたときの処理
+    };
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [insideRef, showMenu]);
+
   const reducer = (
     state: SelectOption<T>[],
     action: Action<SelectOption<T>>
@@ -48,34 +91,12 @@ function Select<T>({
         return state;
     }
   };
-
   const [state, dispatch] = useReducer(reducer, defaultValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange(state), [state]);
-
-  const [showMenu, setShowMenu] = useState(false);
-  const insideRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const el = insideRef.current;
-    if (!el) return; // 対象の要素がなければ何もしない
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!showMenu || el?.contains(e.target as Node)) return;
-      setShowMenu(false); // 外側をクリックしたときの処理
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, [showMenu, insideRef]);
+  useEffect(() => onChange(state), [onChange, state]);
 
   return (
     <div className="overflow-hidden">
-      <div
-        className={
-          (className ?? "") +
-          " " +
-          "hover:bg-slate relative flex cursor-pointer items-center justify-between gap-x-2 rounded-md border border-white bg-slate-50 px-2 py-1.5"
-        }
-        onClick={() => setShowMenu(true)}
-      >
+      <div className={(className ?? "") + " select-body"} onClick={() => setShowMenu(true)}>
         <div className="overflow-x-scroll">
           {state.length > 0 ? (
             isMulti ? (
@@ -83,12 +104,11 @@ function Select<T>({
                 {state.map((option) => (
                   <div
                     key={option.value}
-                    className={
-                      "inline-flex justify-between gap-x-1 rounded-sm py-0.5 pl-1.5 pr-1 text-white" +
-                      " " +
-                      (option.color ?? THEME_COLOR)
-                    }
-                    onClick={() => dispatch({ type: "DESELECT", option })}
+                    className={(option.color ?? themeColor) + " select-item-multi"}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch({ type: "DESELECT", option });
+                    }}
                   >
                     <div>{option.label}</div>
                     <XMarkIcon className="my-auto w-3 stroke-2" />
@@ -98,7 +118,7 @@ function Select<T>({
             ) : (
               <div
                 key={state[0].value}
-                className={"rounded-sm px-1 text-white" + " " + (state[0].color ?? THEME_COLOR)}
+                className={(state[0].color ?? themeColor) + " select-item-unique"}
               >
                 {state[0].label}
               </div>
@@ -110,27 +130,25 @@ function Select<T>({
         <div className="my-auto flex gap-x-2 divide-x divide-white place-self-end">
           {defaultValue.length > 0 && isMulti && (
             <XMarkIcon
-              className="w-4 [&>path]:stroke-[3]"
-              onClick={() => dispatch({ type: "CLEAR" })}
+              className="w-4 duration-300 ease-in hover:scale-125 [&>path]:stroke-[2.5]"
+              onClick={(e) => {
+                e.stopPropagation();
+                dispatch({ type: "CLEAR" });
+              }}
             />
           )}
           <ChevronDownIcon className="h-6 w-6 pl-2 [&>path]:stroke-[3]" />
         </div>
       </div>
       {showMenu && ( // css => showMenu ? "" : "hidden" にすると常時 useEffect が作動する
-        <div
-          ref={insideRef}
-          className="absolute mt-2 flex max-h-screen cursor-pointer flex-col overflow-visible overflow-y-auto rounded-md border border-white bg-slate-100 p-1 drop-shadow"
-        >
+        <div ref={insideRef} className="select-menu-body">
           {options
             .map((option) => {
               if (state.find((x) => x.value == option.value && x.label == option.label)) return;
               return (
                 <div
-                  className={
-                    "py-1 pl-2 pr-5 hover:rounded-md hover:bg-blue-500/90 hover:text-white"
-                  }
                   key={option.value}
+                  className={"select-menu-item"}
                   onClick={() => dispatch({ type: "SELECT", option, isMulti })}
                 >
                   {option.label}
