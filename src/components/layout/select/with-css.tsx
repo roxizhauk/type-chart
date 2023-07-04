@@ -1,9 +1,5 @@
-"use client";
-
-import { useEffect, useReducer, useRef, useState, memo } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import { XMarkIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
-
-const THEME_COLOR = "bg-slate-500";
 
 type SelectOption<T> = {
   value: string;
@@ -11,13 +7,14 @@ type SelectOption<T> = {
   color?: string;
 } & T;
 
-interface SelectProps<Option> {
+interface SelectProps<Option, IsMulti extends boolean> {
+  options: readonly Option[];
+  isMulti?: IsMulti;
   className?: string;
   placeholder?: string;
-  isMulti?: boolean;
-  options: Option[];
-  defaultValue: Option[];
-  onChange: (x: Option[]) => void;
+  themeColor?: string;
+  defaultValue?: Option[];
+  onChange?: (x: readonly Option[]) => void;
 }
 
 type Action<Option> =
@@ -25,16 +22,16 @@ type Action<Option> =
   | { type: "DESELECT"; option: Option }
   | { type: "CLEAR" };
 
-function Select<T>({
-  className,
-  placeholder,
+export default function Select<T, IsMulti extends boolean = false>({
   isMulti,
   options,
+  className,
+  placeholder = isMulti ? "Select Items" : "Select Item",
+  themeColor = "bg-slate-400",
   defaultValue,
   onChange,
-}: SelectProps<SelectOption<T>>) {
+}: SelectProps<SelectOption<T>, IsMulti>) {
   const [showMenu, setShowMenu] = useState(false);
-
   const insideRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = insideRef.current;
@@ -47,23 +44,31 @@ function Select<T>({
     return () => document.removeEventListener("click", handleClickOutside);
   }, [insideRef, showMenu]);
 
+  const defaultState = (
+    isMulti ? defaultValue ?? [] : defaultValue
+  ) as SelectOption<T>[];
+
   const reducer = (
     state: SelectOption<T>[],
     action: Action<SelectOption<T>>
   ): SelectOption<T>[] => {
+    let newState;
     switch (action.type) {
       case "SELECT":
-        return action.isMulti ? [...state, action.option] : [action.option];
+        newState = action.isMulti ? [...state, action.option] : [action.option];
       case "DESELECT":
-        return [...state].filter(({ value }) => value !== action.option.value);
+        newState = [...state].filter(
+          ({ value }) => value !== action.option.value
+        );
       case "CLEAR":
-        return [];
+        newState = [];
       default:
-        return state;
+        newState = state;
     }
+    if (onChange) onChange(newState);
+    return newState;
   };
-  const [state, dispatch] = useReducer(reducer, defaultValue);
-  useEffect(() => onChange(state), [onChange, state]);
+  const [state, dispatch] = useReducer(reducer, defaultState);
 
   return (
     <div className="overflow-hidden">
@@ -85,7 +90,7 @@ function Select<T>({
                     className={
                       "inline-flex justify-between gap-x-1 rounded-sm py-0.5 pl-1.5 pr-1 text-white" +
                       " " +
-                      (option.color ?? THEME_COLOR)
+                      (option.color ?? themeColor)
                     }
                     onClick={(e) => {
                       e.stopPropagation();
@@ -100,17 +105,21 @@ function Select<T>({
             ) : (
               <div
                 key={state[0].value}
-                className={"rounded-sm px-1 text-white" + " " + (state[0].color ?? THEME_COLOR)}
+                className={
+                  "rounded-sm px-1 text-white" +
+                  " " +
+                  (state[0].color ?? themeColor)
+                }
               >
                 {state[0].label}
               </div>
             )
           ) : (
-            <div className="whitespace-nowrap">{placeholder ?? "Select..."}</div>
+            <div className="whitespace-nowrap">{placeholder}</div>
           )}
         </div>
         <div className="my-auto flex gap-x-2 divide-x divide-white place-self-end">
-          {defaultValue.length > 0 && isMulti && (
+          {state.length > 0 && isMulti && (
             <XMarkIcon
               className="w-4 [&>path]:stroke-[3]"
               onClick={(e) => {
@@ -129,7 +138,12 @@ function Select<T>({
         >
           {options
             .map((option) => {
-              if (state.find((x) => x.value == option.value && x.label == option.label)) return;
+              if (
+                state.find(
+                  (x) => x.value == option.value && x.label == option.label
+                )
+              )
+                return;
               return (
                 <div
                   className={
@@ -149,4 +163,5 @@ function Select<T>({
   );
 }
 
-export default memo(Select) as typeof Select;
+// import { memo } from "react";
+// export default memo(Select) as typeof Select;
