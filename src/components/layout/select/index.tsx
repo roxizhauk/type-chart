@@ -228,7 +228,7 @@ export default function Select<T, IsMulti extends boolean = false>({
             <div className="whitespace-nowrap">{placeholder}</div>
           )}
         </div>
-        <div className="my-auto flex gap-x-2 divide-x divide-white place-self-end">
+        <div className="flex items-center justify-center">
           {isMulti && validate<T>(state) && (
             <XMarkIcon
               className="clear-all-icon"

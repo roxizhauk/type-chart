@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "start": "npx serve@latest out",
     "deploy": "next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && git subtree push --prefix out origin gh-pages",
     "exec": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"}",
     "analyze": "ANALYZE=true next build"

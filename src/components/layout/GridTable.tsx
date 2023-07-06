@@ -8,7 +8,11 @@ type Props = {
 };
 
 function GridTable({ className, children }: Props) {
-  return <div className={`${className} grid-table grid grid-cols-19`}>{children}</div>;
+  return (
+    <div className={`${className} grid-table grid grid-cols-19`}>
+      {children}
+    </div>
+  );
 }
 
 export default memo(GridTable);

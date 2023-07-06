@@ -107,7 +107,9 @@ export const filterTypes = (raidTypeName: string) => {
   //   .map((v, i) => (v > 1 ? typeChart[i].typeName : undefined))
   //   .filter((x) => x)
   //   .join(", ");
-  const { typeDamage } = typeChart.find(({ typeName }) => typeName == raidTypeName)!;
+  const { typeDamage } = typeChart.find(
+    ({ typeName }) => typeName == raidTypeName
+  )!;
   const result = { pros: [], cons: [] } as { pros: string[]; cons: string[] };
   typeDamage.map((v, i) => {
     if (v > 1) result.pros.push(typeChart[i].typeName);
@@ -123,7 +125,10 @@ export const filterTypes = (raidTypeName: string) => {
 };
 
 export const tableHead = typeChart.map(({ typeName }, index) => (
-  <div key={`th-${index + 1}`} className={typeChart.length == index + 1 ? "tr" : ""}>
+  <div
+    key={`th-${index + 1}`}
+    className={typeChart.length == index + 1 ? "tr" : ""}
+  >
     <div className={`bg-${typeName.toLowerCase()}`}>{TYPE_ICONS[index]}</div>
   </div>
 ));
