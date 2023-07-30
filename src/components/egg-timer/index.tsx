@@ -1,5 +1,6 @@
 "use client";
 
+import "./style.css";
 import { memo, useCallback, useEffect, useState } from "react";
 import useTimer from "@/hooks/useTimer";
 
@@ -22,20 +23,7 @@ function EggTimer() {
 
   const reset = useCallback(() => setIsRun(false), [setIsRun]);
 
-  // const resetAll = useCallback(() => {
-  //   setIsRun(false);
-  //   setIsRun2(false);
-  // }, [setIsRun, setIsRun2]);
-
   const runTimer2 = useCallback(() => setIsRun2(true), [setIsRun2]);
-
-  // const isHidden = useRef(false);
-  // useEffect(() => {
-  //   if (currentTime <= currentTime2) {
-  //     isHidden.current = true;
-  //     setIsRun2(false);
-  //   }
-  // }, [currentTime, currentTime2, setIsRun2]);
 
   useEffect(() => {
     if (!isRun) setIsRun2(false);
@@ -77,7 +65,6 @@ function EggTimer() {
       </div>
       <div className="egg-timer">
         {isRun ? (
-          // <span className="egg-timer-text-2">{currentTime > currentTime2 && timer2}</span>
           <span className="egg-timer-text-2">{timer2}</span>
         ) : (
           <div className="egg-timer-text-2">

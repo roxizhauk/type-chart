@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Select from "@/components/layout/select";
+import Select from "@/components/select";
 // import Select from "react-select";
 
 const options = [

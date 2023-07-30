@@ -1,0 +1,44 @@
+.grid-table {
+  @apply w-max rounded-lg sm:w-full;
+}
+
+.grid-table,
+.grid-table > div {
+  @apply border-2 border-white/20;
+}
+
+.grid-table > div > div {
+  box-shadow: inset 0.1em 0.1em 0.2em rgba(0, 0, 0, 0.2);
+}
+
+.grid-table > div div {
+  @apply flex h-full w-full items-center justify-center p-1;
+}
+
+.grid-table span {
+  @apply text-xs leading-none drop-shadow sm:text-sm md:text-base;
+}
+
+.grid-table svg {
+  @apply fill-white drop-shadow;
+}
+
+.grid-table > div:first-child,
+.grid-table > div:first-child div {
+  @apply rounded-tl-md;
+}
+
+.grid-table > div:last-child,
+.grid-table > div:last-child div {
+  @apply rounded-br-md;
+}
+
+.grid-table .tr,
+.grid-table .tr > div {
+  @apply rounded-tr-md;
+}
+
+.grid-table .bl,
+.grid-table .bl > div {
+  @apply rounded-bl-md;
+}

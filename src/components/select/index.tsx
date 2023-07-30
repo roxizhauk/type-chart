@@ -1,82 +1,15 @@
 import "./style.css";
 import { useState, useRef, useEffect, useCallback } from "react";
-// import { useReducer } from "react";
-
-const XMarkIcon = ({ className, onClick }: React.SVGProps<SVGSVGElement>) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className={className}
-      onClick={onClick}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M6 18L18 6M6 6l12 12"
-      />
-    </svg>
-  );
-};
-
-const ChevronDownIcon = ({
-  className,
-  onClick,
-}: React.SVGProps<SVGSVGElement>) => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
-      className={className}
-      onClick={onClick}
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-      />
-    </svg>
-  );
-};
-
-type Action<Option> = {
-  type: "SELECT" | "DESELECT" | "CLEAR";
-  option?: Option;
-};
-
-type OnChangeValue<Option, IsMulti extends boolean> = IsMulti extends true
-  ? readonly Option[]
-  : Option;
-
-interface SelectProps<Option, IsMulti extends boolean> {
-  options: readonly Option[];
-  isMulti?: IsMulti;
-  className?: string;
-  placeholder?: string;
-  themeColor?: string;
-  defaultValue?: OnChangeValue<Option, IsMulti>;
-  onChange?: (onChangeValue: OnChangeValue<Option, IsMulti>) => void;
-}
-
-type SelectOption<AdditionalOption> = {
-  value: string;
-  label: string;
-  color?: string;
-} & AdditionalOption;
-
-function isArray<T>(state: any): state is SelectOption<T>[] {
-  return Array.isArray(state);
-}
-
-function validate<T>(state: any): state is SelectOption<T> | SelectOption<T>[] {
-  return Array.isArray(state) ? state.length > 0 : !!state;
-}
+import {
+  SelectProps,
+  SelectOption,
+  OnChangeValue,
+  Action,
+  validate,
+  isArray,
+  XMarkIcon,
+  ChevronDownIcon,
+} from "./utils";
 
 export default function Select<T, IsMulti extends boolean = false>({
   isMulti,
@@ -85,24 +18,27 @@ export default function Select<T, IsMulti extends boolean = false>({
   placeholder = isMulti ? "Select Items" : "Select Item",
   themeColor = "bg-slate-400",
   defaultValue,
+  elementId = "select-root",
   onChange,
 }: SelectProps<SelectOption<T>, IsMulti>) {
+  const defaultState = (isMulti ? defaultValue ?? [] : defaultValue) as OnChangeValue<
+    SelectOption<T>,
+    IsMulti
+  >;
+  const [state, setState] = useState(defaultState);
   const [showMenu, setShowMenu] = useState(false);
+
   const insideRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = insideRef.current;
-    if (!el) return; // 対象の要素がなければ何もしない
+    const element = insideRef.current;
+    if (!element) return; // 対象の要素がなければ何もしない
     const handleClickOutside = (e: MouseEvent) => {
-      if (!showMenu || el?.contains(e.target as Node)) return;
+      if (!showMenu || element?.contains(e.target as Node)) return;
       setShowMenu(false); // 外側をクリックしたときの処理
     };
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [insideRef, showMenu]);
-
-  const defaultState = (
-    isMulti ? defaultValue ?? [] : defaultValue
-  ) as OnChangeValue<SelectOption<T>, IsMulti>;
 
   // const reducer: React.Reducer<
   //   OnChangeValue<SelectOption<T>, IsMulti>,
@@ -137,7 +73,6 @@ export default function Select<T, IsMulti extends boolean = false>({
   // };
   // const [state, dispatch] = useReducer(reducer, defaultState);
 
-  const [state, setState] = useState(defaultState);
   const dispatch = useCallback(
     ({ type, option }: Action<SelectOption<T>>) =>
       setState((prevState) => {
@@ -150,9 +85,7 @@ export default function Select<T, IsMulti extends boolean = false>({
               break;
 
             case "DESELECT":
-              newState = newState.filter(
-                ({ value }) => value !== option!.value
-              );
+              newState = newState.filter(({ value }) => value !== option!.value);
               break;
 
             case "CLEAR":
@@ -168,44 +101,42 @@ export default function Select<T, IsMulti extends boolean = false>({
         }
         return newState as OnChangeValue<SelectOption<T>, IsMulti>;
       }),
-    []
+    [isMulti],
+  );
+
+  const genMenuItem = useCallback(
+    (option: SelectOption<T>) => {
+      return (
+        <div
+          key={option.value}
+          className={"select-menu-item"}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: "SELECT", option });
+          }}
+        >
+          {option.label}
+        </div>
+      );
+    },
+    [dispatch],
   );
 
   useEffect(() => {
     if (onChange) onChange(state);
-  }, [state]);
-
-  const genMenuItem = useCallback((option: SelectOption<T>) => {
-    return (
-      <div
-        key={option.value}
-        className={"select-menu-item"}
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch({ type: "SELECT", option });
-        }}
-      >
-        {option.label}
-      </div>
-    );
-  }, []);
+  }, [state, onChange]);
 
   return (
-    <div className="overflow-hidden">
-      <div
-        className={"select-body " + className}
-        onClick={() => setShowMenu(true)}
-      >
-        <div className="overflow-x-scroll">
+    <div className={className}>
+      <div className="select-body" onClick={() => setShowMenu(true)}>
+        <div className="select-content peer">
           {validate<T>(state) ? (
             isArray<T>(state) ? (
               <div className="flex gap-x-1.5">
                 {state.map((option) => (
                   <div
                     key={option.value}
-                    className={
-                      "select-item-multi " + (option.color ?? themeColor)
-                    }
+                    className={"select-item-multi " + (option.color ?? themeColor)}
                     onClick={(e) => {
                       e.stopPropagation();
                       dispatch({ type: "DESELECT", option });
@@ -228,18 +159,16 @@ export default function Select<T, IsMulti extends boolean = false>({
             <div className="whitespace-nowrap">{placeholder}</div>
           )}
         </div>
-        <div className="flex items-center justify-center">
-          {isMulti && validate<T>(state) && (
-            <XMarkIcon
-              className="clear-all-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                dispatch({ type: "CLEAR" });
-              }}
-            />
-          )}
-          <ChevronDownIcon className="show-menu-icon" />
-        </div>
+        {isMulti && validate<T>(state) && (
+          <XMarkIcon
+            className="clear-all-icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch({ type: "CLEAR" });
+            }}
+          />
+        )}
+        <ChevronDownIcon className="show-menu-icon" />
       </div>
       {showMenu && ( // css => showMenu ? "" : "hidden" にすると常時 useEffect が作動する
         <div ref={insideRef} className="select-menu-body">
@@ -248,17 +177,11 @@ export default function Select<T, IsMulti extends boolean = false>({
               ? options
                   .map((option) => {
                     const { value, label } = option;
-                    if (
-                      state.find(
-                        ({ value: v, label: l }) => v === value && l === label
-                      )
-                    )
+                    if (state.find(({ value: v, label: l }) => v === value && l === label))
                       return;
                     return genMenuItem(option);
                   })
-                  .filter(
-                    (x): x is Exclude<typeof x, undefined> => x !== undefined
-                  )
+                  .filter((x): x is Exclude<typeof x, undefined> => x !== undefined)
               : options
                   .map((option) => {
                     const { value, label } = option;
@@ -266,9 +189,7 @@ export default function Select<T, IsMulti extends boolean = false>({
                     if (v === value && l === label) return;
                     return genMenuItem(option);
                   })
-                  .filter(
-                    (x): x is Exclude<typeof x, undefined> => x !== undefined
-                  )
+                  .filter((x): x is Exclude<typeof x, undefined> => x !== undefined)
             : options.map(genMenuItem)}
         </div>
       )}

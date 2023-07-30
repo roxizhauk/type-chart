@@ -1,5 +1,5 @@
-import TypeChecker from "@/components/utils/TypeChecker";
-import EggTimer from "@/components/utils/EggTimer";
+import EggTimer from "@/components/egg-timer";
+import TypeChecker from "@/components/type-checker";
 
 export default function Home() {
   return (

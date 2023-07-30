@@ -1,22 +1,18 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
-function useTimer(defaultTime: number[]) {
-  const [min, sec] = defaultTime;
+export default function useTimer([min, sec]: number[]) {
   const [time, setTime] = useState({ min, sec });
   const [isRun, setIsRun] = useState(false);
   const intervalID = useRef(0);
 
-  useEffect(() => {
-    const [min, sec] = defaultTime;
-    setTime({ min, sec });
-  }, [defaultTime]);
-
   const tick = useCallback(() => {
-    setTime((prevTime) => {
-      const newTime = Object.assign({}, prevTime);
-      if (prevTime.sec > 0) newTime.sec -= 1;
-      if (prevTime.sec == 0) {
-        if (prevTime.min == 0) {
+    setTime((previousTime) => {
+      const newTime = Object.assign({}, previousTime);
+
+      if (previousTime.sec > 0) {
+        newTime.sec -= 1;
+      } else {
+        if (previousTime.min == 0) {
           clearInterval(intervalID.current);
           setIsRun(false);
         } else {
@@ -24,6 +20,7 @@ function useTimer(defaultTime: number[]) {
           newTime.sec = 59;
         }
       }
+
       return newTime;
     });
   }, []);
@@ -34,9 +31,12 @@ function useTimer(defaultTime: number[]) {
       return () => {
         clearInterval(intervalID.current);
         setTime({ min, sec });
-      }; // isRun == true 内に入れないと、マウント時にクリーンアップが走る
-    } // eslint-disable-next-line react-hooks/exhaustive-deps
+      };
+    } // isRun == true 内に入れないと、マウント時にクリーンアップが走る
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRun]);
+
+  useEffect(() => setTime({ min, sec }), [min, sec]);
 
   return {
     initialTime: min * 60 + sec,
@@ -53,5 +53,3 @@ function useTimer(defaultTime: number[]) {
     button: <button onClick={() => setIsRun(!isRun)}>{isRun ? "Reset" : "Start"}</button>,
   };
 }
-
-export default useTimer;

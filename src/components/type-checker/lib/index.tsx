@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+import typeChart from "./chart.json";
 import {
   NormalIcon,
   FireIcon,
@@ -17,9 +19,7 @@ import {
   DarkIcon,
   SteelIcon,
   FairyIcon,
-} from "./type-icons";
-import typeChart from "@/data/type-chart.json";
-import { Fragment } from "react";
+} from "./icons";
 
 export const TYPE_ICONS = [
   <NormalIcon key={"normal"} className={"h-4 w-4"} />,
@@ -107,9 +107,7 @@ export const filterTypes = (raidTypeName: string) => {
   //   .map((v, i) => (v > 1 ? typeChart[i].typeName : undefined))
   //   .filter((x) => x)
   //   .join(", ");
-  const { typeDamage } = typeChart.find(
-    ({ typeName }) => typeName == raidTypeName
-  )!;
+  const { typeDamage } = typeChart.find(({ typeName }) => typeName == raidTypeName)!;
   const result = { pros: [], cons: [] } as { pros: string[]; cons: string[] };
   typeDamage.map((v, i) => {
     if (v > 1) result.pros.push(typeChart[i].typeName);
@@ -125,10 +123,7 @@ export const filterTypes = (raidTypeName: string) => {
 };
 
 export const tableHead = typeChart.map(({ typeName }, index) => (
-  <div
-    key={`th-${index + 1}`}
-    className={typeChart.length == index + 1 ? "tr" : ""}
-  >
+  <div key={`th-${index + 1}`} className={typeChart.length == index + 1 ? "tr" : ""}>
     <div className={`bg-${typeName.toLowerCase()}`}>{TYPE_ICONS[index]}</div>
   </div>
 ));

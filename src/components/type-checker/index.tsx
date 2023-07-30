@@ -1,15 +1,9 @@
 "use client";
 
-import {
-  Fragment,
-  useState,
-  useEffect,
-  useCallback,
-  useMemo,
-  memo,
-} from "react";
-import Select from "@/components/layout/select";
-import GridTable from "@/components/layout/GridTable";
+import "./style.css";
+import "./colors.css";
+import { Fragment, useState, useEffect, useCallback, useMemo, memo } from "react";
+import Select from "@/components/select";
 import {
   filterTypes,
   genColor,
@@ -18,12 +12,11 @@ import {
   SELECT_OPTIONS as options,
   TYPE_CHART as typeChart,
   TYPE_ICONS as typeIcons,
-} from "@/lib/type-checker";
+} from "./lib";
 
 type Option = typeof options extends (infer U)[] ? U : never;
 
 function TypeChecker() {
-  // const [raidType, setRaidType] = useState<Option>();
   const [moveTypes, setMoveTypes] = useState<Option[]>([]);
   const [raidData, setRaidData] = useState(<></>);
   const [tableRows, setTableRows] = useState(allTableRows);
@@ -35,18 +28,13 @@ function TypeChecker() {
     let result = [...Array(18)].map(() => 0);
     if (colorMode) {
       for (const { id } of moveTypes) {
-        result = result.map((v, i) =>
-          Math.max(v, typeChart[id].typeEffect[i].value)
-        );
+        result = result.map((v, i) => Math.max(v, typeChart[id].typeEffect[i].value));
       }
     }
 
     return moveTypes.map(({ id, value: type, color: typeColor }, index) => (
       <Fragment key={`row-${type}`}>
-        <div
-          key={`td-${type}-0`}
-          className={moveTypes.length == index + 1 ? "bl" : ""}
-        >
+        <div key={`td-${type}-0`} className={moveTypes.length == index + 1 ? "bl" : ""}>
           <div className={`text-white ${typeColor}`}>{typeIcons[id]}</div>
         </div>
         {typeChart[id].typeEffect.map(({ emote, color: bgColor }, i) => (
@@ -94,13 +82,13 @@ function TypeChecker() {
   return (
     <>
       <div className="z-20 col-span-2 md:col-span-1">
-        <div className="w-full drop-shadow">
-          <Select
-            placeholder="Select Raid Type"
-            options={options}
-            onChange={handleRaidType}
-          />
-        </div>
+        <Select
+          placeholder="Select Raid Type"
+          options={options}
+          onChange={handleRaidType}
+          className="h-full w-full drop-shadow"
+          elementId="select1"
+        />
       </div>
       <div className="col-span-3 md:col-span-2">
         <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium leading-tight">
@@ -109,31 +97,25 @@ function TypeChecker() {
       </div>
       <div className="">
         <button
-          className={
-            "btn " +
-            (moveTypes.length < 2 || isAll ? "btn-disabled" : "btn-light")
-          }
+          className={"btn " + (moveTypes.length < 2 || isAll ? "btn-disabled" : "btn-light")}
           onClick={handleColorMode}
         >
           Color Mode
         </button>
       </div>
       <div className="z-10 col-span-4 md:col-span-2">
-        <div className="w-full drop-shadow">
-          <Select
-            isMulti
-            placeholder="Select Move Types"
-            options={options}
-            onChange={handleMoveTypes}
-          />
-        </div>
+        <Select
+          isMulti
+          placeholder="Select Move Types"
+          options={options}
+          onChange={handleMoveTypes}
+          className="h-full w-full drop-shadow"
+          elementId="select2"
+        />
       </div>
       <div className="">
         <button
-          className={
-            "btn " +
-            (moveTypes.length > 0 && isAll ? "btn-blue" : "btn-disabled")
-          }
+          className={"btn " + (moveTypes.length > 0 && isAll ? "btn-blue" : "btn-disabled")}
           onClick={handleShowChart}
         >
           Show Chart
@@ -141,10 +123,7 @@ function TypeChecker() {
       </div>
       <div className="">
         <button
-          className={
-            "btn " +
-            (moveTypes.length == 0 || isAll ? "btn-disabled" : "btn-blue")
-          }
+          className={"btn " + (moveTypes.length == 0 || isAll ? "btn-disabled" : "btn-blue")}
           onClick={handleShowAll}
         >
           Show All
@@ -152,7 +131,7 @@ function TypeChecker() {
       </div>
       <div className="col-span-4">
         <div className="w-full overflow-x-auto">
-          <GridTable>
+          <div className="grid-table grid grid-cols-19">
             <div>
               <div>
                 <span className="text-transparent">😃</span>
@@ -160,7 +139,7 @@ function TypeChecker() {
             </div>
             {tableHead}
             {tableRows}
-          </GridTable>
+          </div>
         </div>
       </div>
     </>
