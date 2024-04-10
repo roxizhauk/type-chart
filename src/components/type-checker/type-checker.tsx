@@ -2,54 +2,19 @@
 
 import "./style.css";
 import "./colors.css";
-import { Fragment, useState, useEffect, useCallback, useMemo, memo } from "react";
-import Select from "@/components/select";
-import {
-  filterTypes,
-  genColor,
-  tableHead,
-  allTableRows,
-  SELECT_OPTIONS as options,
-  TYPE_CHART as typeChart,
-  TYPE_ICONS as typeIcons,
-} from "./lib";
+import { useState, useEffect, useCallback } from "react";
+import { Select } from "@/components/select";
+import { options, Option, RaidTypes, TableHead, AllTableRows, SelectedRows } from "./elements";
 
-type Option = typeof options extends (infer U)[] ? U : never;
-
-function TypeChecker() {
+export function TypeChecker() {
   const [moveTypes, setMoveTypes] = useState<Option[]>([]);
-  const [raidData, setRaidData] = useState(<></>);
-  const [tableRows, setTableRows] = useState(allTableRows);
+  const [raidData, setRaidData] = useState<JSX.Element | null>(null);
+  const [tableRows, setTableRows] = useState<JSX.Element | null>(<AllTableRows />);
   const [colorMode, setColorMode] = useState(false);
   const [isAll, setIsAll] = useState(true);
 
-  const genChart = useMemo(() => {
-    if (moveTypes.length == 0) return [];
-    let result = [...Array(18)].map(() => 0);
-    if (colorMode) {
-      for (const { id } of moveTypes) {
-        result = result.map((v, i) => Math.max(v, typeChart[id].typeEffect[i].value));
-      }
-    }
-
-    return moveTypes.map(({ id, value: type, color: typeColor }, index) => (
-      <Fragment key={`row-${type}`}>
-        <div key={`td-${type}-0`} className={moveTypes.length == index + 1 ? "bl" : ""}>
-          <div className={`text-white ${typeColor}`}>{typeIcons[id]}</div>
-        </div>
-        {typeChart[id].typeEffect.map(({ emote, color: bgColor }, i) => (
-          <div key={`td-${type}-${i + 1}`}>
-            <div className={colorMode ? genColor(result[i]) : bgColor}>
-              <span>{emote}</span>
-            </div>
-          </div>
-        ))}
-      </Fragment>
-    ));
-  }, [colorMode, moveTypes]);
-
   const handleRaidType = useCallback((option: Option) => {
-    if (option) setRaidData(<>{filterTypes(option.label)}</>);
+    if (option) setRaidData(<RaidTypes raidType={option.label} />);
   }, []);
 
   const handleMoveTypes = useCallback((options: readonly Option[]) => {
@@ -61,23 +26,23 @@ function TypeChecker() {
   }, [moveTypes]);
 
   const handleShowAll = useCallback(() => {
-    setTableRows(allTableRows);
+    setTableRows(<AllTableRows />);
     setIsAll(true);
   }, []);
 
   const handleShowChart = useCallback(() => {
-    setTableRows(genChart);
+    setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode} />);
     setIsAll(false);
-  }, [genChart]);
+  }, [moveTypes, colorMode]);
 
   useEffect(() => {
     if (moveTypes.length > 0) {
-      setTableRows(genChart);
+      setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode} />);
       setIsAll(false);
     } else {
-      setTableRows(allTableRows);
+      setTableRows(<AllTableRows />);
     }
-  }, [colorMode, moveTypes, genChart]);
+  }, [colorMode, moveTypes]);
 
   return (
     <>
@@ -86,7 +51,7 @@ function TypeChecker() {
           placeholder="Select Raid Type"
           options={options}
           onChange={handleRaidType}
-          className="h-full w-full drop-shadow"
+          className="drop-shadow"
           elementId="select1"
         />
       </div>
@@ -95,9 +60,9 @@ function TypeChecker() {
           {raidData}
         </div>
       </div>
-      <div className="">
+      <div>
         <button
-          className={"btn " + (moveTypes.length < 2 || isAll ? "btn-disabled" : "btn-light")}
+          className={moveTypes.length < 2 || isAll ? "btn-disabled" : "btn-light"}
           onClick={handleColorMode}
         >
           Color Mode
@@ -109,21 +74,21 @@ function TypeChecker() {
           placeholder="Select Move Types"
           options={options}
           onChange={handleMoveTypes}
-          className="h-full w-full drop-shadow"
+          className="drop-shadow"
           elementId="select2"
         />
       </div>
-      <div className="">
+      <div>
         <button
-          className={"btn " + (moveTypes.length > 0 && isAll ? "btn-blue" : "btn-disabled")}
+          className={moveTypes.length > 0 && isAll ? "btn-blue" : "btn-disabled"}
           onClick={handleShowChart}
         >
           Show Chart
         </button>
       </div>
-      <div className="">
+      <div>
         <button
-          className={"btn " + (moveTypes.length == 0 || isAll ? "btn-disabled" : "btn-blue")}
+          className={moveTypes.length == 0 || isAll ? "btn-disabled" : "btn-blue"}
           onClick={handleShowAll}
         >
           Show All
@@ -137,7 +102,7 @@ function TypeChecker() {
                 <span className="text-transparent">😃</span>
               </div>
             </div>
-            {tableHead}
+            <TableHead />
             {tableRows}
           </div>
         </div>
@@ -145,5 +110,3 @@ function TypeChecker() {
     </>
   );
 }
-
-export default memo(TypeChecker);

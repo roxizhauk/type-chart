@@ -1,22 +1,11 @@
 .egg-timer {
-  @apply flex items-center justify-center gap-1 text-xl
-  sm:text-3xl;
+  @apply flex items-center justify-center gap-1 text-xl sm:text-3xl;
 }
 
 .egg-timer input {
-  @apply h-auto w-6 rounded-sm bg-transparent text-center
-  focus:outline-none
-  sm:w-9;
+  @apply h-auto w-6 rounded-sm bg-transparent text-center focus:outline-none sm:w-9;
 }
 
 .egg-timer input::-webkit-inner-spin-button {
   display: none;
-}
-
-.egg-timer-text-1 {
-  @apply text-blue-500  dark:text-blue-600;
-}
-
-.egg-timer-text-2 {
-  @apply text-pink-400  dark:text-pink-500;
 }

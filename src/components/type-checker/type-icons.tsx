@@ -1,4 +1,4 @@
-export const BugIcon = ({ className }: { className?: string }) => (
+const Bug = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -14,7 +14,7 @@ export const BugIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const DarkIcon = ({ className }: { className?: string }) => (
+const Dark = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -30,7 +30,7 @@ export const DarkIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const DragonIcon = ({ className }: { className?: string }) => (
+const Dragon = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -46,7 +46,7 @@ export const DragonIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const ElectricIcon = ({ className }: { className?: string }) => (
+const Electric = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -62,7 +62,7 @@ export const ElectricIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const FairyIcon = ({ className }: { className?: string }) => (
+const Fairy = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -78,7 +78,7 @@ export const FairyIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const FightingIcon = ({ className }: { className?: string }) => (
+const Fighting = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -94,7 +94,7 @@ export const FightingIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const FireIcon = ({ className }: { className?: string }) => (
+const Fire = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -110,7 +110,7 @@ export const FireIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const FlyingIcon = ({ className }: { className?: string }) => (
+const Flying = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -125,7 +125,8 @@ export const FlyingIcon = ({ className }: { className?: string }) => (
     />
   </svg>
 );
-export const GhostIcon = ({ className }: { className?: string }) => (
+
+const Ghost = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -141,7 +142,7 @@ export const GhostIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const GrassIcon = ({ className }: { className?: string }) => (
+const Grass = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -157,7 +158,7 @@ export const GrassIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const GroundIcon = ({ className }: { className?: string }) => (
+const Ground = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -173,7 +174,7 @@ export const GroundIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const IceIcon = ({ className }: { className?: string }) => (
+const Ice = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -219,7 +220,7 @@ export const IceIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const NormalIcon = ({ className }: { className?: string }) => (
+const Normal = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -235,7 +236,7 @@ export const NormalIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const PoisonIcon = ({ className }: { className?: string }) => (
+const Poison = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -251,7 +252,7 @@ export const PoisonIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const PsychicIcon = ({ className }: { className?: string }) => (
+const Psychic = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -267,7 +268,7 @@ export const PsychicIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const RockIcon = ({ className }: { className?: string }) => (
+const Rock = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -283,7 +284,7 @@ export const RockIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const SteelIcon = ({ className }: { className?: string }) => (
+const Steel = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -299,7 +300,7 @@ export const SteelIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export const WaterIcon = ({ className }: { className?: string }) => (
+const Water = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="0 0 512 512"
@@ -314,3 +315,24 @@ export const WaterIcon = ({ className }: { className?: string }) => (
     />
   </svg>
 );
+
+export const typeIcons = [
+  <Normal key="normal" className="h-4 w-4" />,
+  <Fire key="fire" className="h-4 w-4" />,
+  <Water key="water" className="h-4 w-4" />,
+  <Electric key="electric" className="h-4 w-4" />,
+  <Grass key="grass" className="h-4 w-4" />,
+  <Ice key="ice" className="h-4 w-4" />,
+  <Fighting key="fighting" className="h-4 w-4" />,
+  <Poison key="poison" className="h-4 w-4" />,
+  <Ground key="ground" className="h-4 w-4" />,
+  <Flying key="flying" className="h-4 w-4" />,
+  <Psychic key="psychic" className="h-4 w-4" />,
+  <Bug key="bug" className="h-4 w-4" />,
+  <Rock key="rock" className="h-4 w-4" />,
+  <Ghost key="ghost" className="h-4 w-4" />,
+  <Dragon key="dragon" className="h-4 w-4" />,
+  <Dark key="dark" className="h-4 w-4" />,
+  <Steel key="steel" className="h-4 w-4" />,
+  <Fairy key="fairy" className="h-4 w-4" />,
+];

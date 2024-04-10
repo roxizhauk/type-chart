@@ -4,30 +4,29 @@
 
 @layer base {
   body {
-    @apply bg-cottoncandy grid overscroll-none font-mono text-gray-500;
+    @apply bg-cottoncandy grid overscroll-none;
     grid-template-rows: 1fr auto;
     grid-template-columns: 100%;
     min-height: 100vh;
   }
 
   main {
-    @apply mx-auto h-full w-full select-none md:my-2 md:h-auto md:max-w-3xl;
+    @apply mx-auto h-full w-full select-none p-2 font-mono text-gray-500
+    md:h-auto md:max-w-3xl md:px-0;
   }
 
-  div.bento {
-    @apply mx-auto grid w-full grid-flow-row-dense grid-cols-4 place-items-center gap-2 p-2;
+  .bento {
+    @apply mx-auto grid w-full grid-flow-row-dense grid-cols-4 place-items-center gap-2;
   }
 
-  div.bento > div {
+  .bento > div {
     @apply flex h-full w-full items-center rounded-lg bg-white/10 p-2;
     box-shadow:
       inset 0.05em 0.05em 0.05em rgba(255, 255, 255, 0.8),
       inset 0.1em 0.1em 0.075em rgba(255, 255, 255, 0.4),
       0.05em 0.05em 0.3em rgba(0, 0, 0, 0.2);
   }
-}
 
-@layer components {
   .bg-cottoncandy {
     background: radial-gradient(
       at left top,
@@ -36,51 +35,29 @@
       rgb(129, 140, 248)
     );
   }
-
+}
+@layer components {
   .btn {
-    @apply h-full w-full cursor-pointer rounded-md p-1
-    text-center text-sm font-medium leading-none drop-shadow
-    sm:text-base;
-  }
-
-  .btn-blue {
-    @apply bg-blue-600 text-white
-    hover:bg-blue-500
-    focus:outline-none focus:ring-2 focus:ring-blue-200
-    dark:bg-blue-500
-    dark:hover:bg-blue-600
-    dark:focus:ring-blue-700;
-  }
-
-  .btn-pink {
-    @apply bg-pink-400 text-white
-    hover:bg-pink-500
-    focus:outline-none focus:ring-2 focus:ring-pink-200
-    dark:bg-pink-400
-    dark:hover:bg-pink-500
-    dark:focus:ring-pink-300;
-  }
-
-  .btn-light {
-    @apply bg-white
-    hover:bg-gray-100
-    focus:outline-none focus:ring-2 focus:ring-gray-200
-    dark:bg-gray-800 dark:text-white
-    dark:hover:bg-gray-700
-    dark:focus:ring-gray-700;
+    @apply h-full w-full cursor-pointer rounded-md px-2 py-1 text-center
+    text-sm text-white shadow transition duration-300
+    hover:bg-opacity-70
+    focus:outline-none focus-visible:outline-none
+    active:scale-95;
   }
 
   .btn-disabled {
-    @apply cursor-not-allowed bg-gray-400 text-white
-    focus:outline-none
-    dark:bg-gray-500;
+    @apply btn cursor-not-allowed bg-gray-400;
   }
 
-  .focus-none:focus {
-    @apply outline-none ring-0 ring-transparent ring-opacity-0 ring-offset-0;
+  .btn-blue {
+    @apply btn bg-blue-500;
   }
 
-  .focus-none2:focus {
-    @apply outline-none;
+  .btn-pink {
+    @apply btn bg-pink-400;
+  }
+
+  .btn-light {
+    @apply btn bg-white text-slate-500;
   }
 }

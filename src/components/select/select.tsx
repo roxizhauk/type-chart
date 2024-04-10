@@ -1,24 +1,17 @@
+"use client";
+
 import "./style.css";
 import { useState, useRef, useEffect, useCallback } from "react";
-import {
-  SelectProps,
-  SelectOption,
-  OnChangeValue,
-  Action,
-  validate,
-  isArray,
-  XMarkIcon,
-  ChevronDownIcon,
-} from "./utils";
+import { SelectProps, SelectOption, OnChangeValue, Action, validate, isArray } from "./utils";
+import { XMarkIcon, ChevronDownIcon } from "./icons";
 
-export default function Select<T, IsMulti extends boolean = false>({
+export function Select<T, IsMulti extends boolean = false>({
   isMulti,
   options,
   className,
   placeholder = isMulti ? "Select Items" : "Select Item",
   themeColor = "bg-slate-400",
   defaultValue,
-  elementId = "select-root",
   onChange,
 }: SelectProps<SelectOption<T>, IsMulti>) {
   const defaultState = (isMulti ? defaultValue ?? [] : defaultValue) as OnChangeValue<
@@ -31,11 +24,11 @@ export default function Select<T, IsMulti extends boolean = false>({
   const insideRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const element = insideRef.current;
-    if (!element) return; // 対象の要素がなければ何もしない
-    const handleClickOutside = (e: MouseEvent) => {
+    if (!element) return;
+    function handleClickOutside(e: MouseEvent) {
       if (!showMenu || element?.contains(e.target as Node)) return;
-      setShowMenu(false); // 外側をクリックしたときの処理
-    };
+      setShowMenu(false); // close menu when clicked outside
+    }
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [insideRef, showMenu]);
@@ -105,20 +98,18 @@ export default function Select<T, IsMulti extends boolean = false>({
   );
 
   const genMenuItem = useCallback(
-    (option: SelectOption<T>) => {
-      return (
-        <div
-          key={option.value}
-          className={"select-menu-item"}
-          onClick={(e) => {
-            e.stopPropagation();
-            dispatch({ type: "SELECT", option });
-          }}
-        >
-          {option.label}
-        </div>
-      );
-    },
+    (option: SelectOption<T>) => (
+      <div
+        key={option.value}
+        className={"select-menu-item"}
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch({ type: "SELECT", option });
+        }}
+      >
+        {option.label}
+      </div>
+    ),
     [dispatch],
   );
 
@@ -127,7 +118,7 @@ export default function Select<T, IsMulti extends boolean = false>({
   }, [state, onChange]);
 
   return (
-    <div className={className}>
+    <div className={"h-full w-full " + className}>
       <div className="select-body" onClick={() => setShowMenu(true)}>
         <div className="select-content peer">
           {validate<T>(state) ? (
@@ -136,7 +127,7 @@ export default function Select<T, IsMulti extends boolean = false>({
                 {state.map((option) => (
                   <div
                     key={option.value}
-                    className={"select-item-multi " + (option.color ?? themeColor)}
+                    className={"select-item is-multi " + (option.color ?? themeColor)}
                     onClick={(e) => {
                       e.stopPropagation();
                       dispatch({ type: "DESELECT", option });
@@ -150,13 +141,13 @@ export default function Select<T, IsMulti extends boolean = false>({
             ) : (
               <div
                 key={state.value}
-                className={"select-item-unique " + (state.color ?? themeColor)}
+                className={"select-item is-unique " + (state.color ?? themeColor)}
               >
                 {state.label}
               </div>
             )
           ) : (
-            <div className="whitespace-nowrap">{placeholder}</div>
+            <div className="whitespace-nowrap text-sm">{placeholder}</div>
           )}
         </div>
         {isMulti && validate<T>(state) && (
@@ -196,6 +187,3 @@ export default function Select<T, IsMulti extends boolean = false>({
     </div>
   );
 }
-
-// import { memo } from "react";
-// export default memo(Select) as typeof Select;

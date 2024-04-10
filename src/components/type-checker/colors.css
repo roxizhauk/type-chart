@@ -1,95 +1,24 @@
-.bg-bad {
-  @apply bg-red-400;
-}
-
-.bg-good {
-  @apply bg-sky-400;
-}
-
-.text-bad {
-  @apply text-red-500;
-}
-
-.text-good {
-  @apply text-blue-500;
-}
-
-.bg-immune {
-  @apply bg-amber-400;
-}
-
-.bg-immune2 {
-  @apply bg-slate-500;
-}
-
-.bg-normal {
-  @apply bg-neutral-400;
-}
-
-.bg-fire {
-  @apply bg-orange-400;
-}
-
-.bg-water {
-  @apply bg-blue-400;
-}
-
-.bg-electric {
-  @apply bg-yellow-400;
-}
-
-.bg-grass {
-  @apply bg-lime-400;
-}
-
-.bg-ice {
-  @apply bg-cyan-400;
-}
-
-.bg-fighting {
-  @apply bg-amber-500;
-}
-
-.bg-poison {
-  @apply bg-violet-400;
-}
-
-.bg-ground {
-  @apply bg-yellow-600;
-}
-
-.bg-flying {
-  @apply bg-sky-300;
-}
-
-.bg-psychic {
-  @apply bg-fuchsia-400;
-}
-
-.bg-bug {
-  @apply bg-green-400;
-}
-
-.bg-rock {
-  @apply bg-stone-400;
-}
-
-.bg-ghost {
-  @apply bg-violet-500;
-}
-
-.bg-dragon {
-  @apply bg-indigo-500;
-}
-
-.bg-dark {
-  @apply bg-neutral-500;
-}
-
-.bg-steel {
-  @apply bg-slate-400;
-}
-
-.bg-fairy {
-  @apply bg-pink-400;
-}
+.text-bad    { @apply text-red-500 }
+.text-good   { @apply text-blue-500 }
+.bg-bad      { @apply bg-red-400 }
+.bg-good     { @apply bg-sky-400 }
+.bg-immune   { @apply bg-amber-400 }
+.bg-immune2  { @apply bg-slate-500 }
+.bg-normal   { @apply bg-neutral-400 }
+.bg-fire     { @apply bg-orange-400 }
+.bg-water    { @apply bg-blue-400 }
+.bg-electric { @apply bg-yellow-400 }
+.bg-grass    { @apply bg-lime-400 }
+.bg-ice      { @apply bg-cyan-400 }
+.bg-fighting { @apply bg-amber-500 }
+.bg-poison   { @apply bg-violet-400 }
+.bg-ground   { @apply bg-yellow-600 }
+.bg-flying   { @apply bg-sky-300 }
+.bg-psychic  { @apply bg-fuchsia-400 }
+.bg-bug      { @apply bg-green-400 }
+.bg-rock     { @apply bg-stone-400 }
+.bg-ghost    { @apply bg-violet-500 }
+.bg-dragon   { @apply bg-indigo-500 }
+.bg-dark     { @apply bg-neutral-500 }
+.bg-steel    { @apply bg-slate-400 }
+.bg-fairy    { @apply bg-pink-400 }

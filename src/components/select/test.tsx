@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import Select from "@/components/select";
-// import Select from "react-select";
+import { Select } from "./select";
 
 const options = [
   { id: 1, value: "chocolate", label: "Chocolate" },
@@ -14,7 +13,7 @@ const options = [
 type ElementType<T> = T extends (infer U)[] ? U : never;
 type Option = ElementType<typeof options>;
 
-export default function TestSelect() {
+export function TestSelect() {
   const [selectedOption, setSelectedOption] = useState<Option | null>();
   const [selectedOptions, setSelectedOptions] = useState<Option[]>();
 
