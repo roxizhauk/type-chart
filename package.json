@@ -7,9 +7,7 @@
     "build": "next build",
     "start": "npx serve@latest out",
     "deploy": "next build && touch out/.nojekyll && git add out/ && git commit -m \"Deploy\" && git subtree push --prefix out origin gh-pages",
-    "exec": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"}",
-    "analyze": "ANALYZE=true next build",
-    "update": "npx npm-check-updates -u && pnpm install"
+    "exec": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"}"
   },
   "dependencies": {
     "next": "^14.1.4",
@@ -17,7 +15,6 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^14.1.4",
     "@types/node": "20.12.4",
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
