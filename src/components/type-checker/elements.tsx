@@ -1,24 +1,10 @@
 import { Fragment, memo } from "react";
-import data from "./type-chart.json";
 import { typeIcons } from "./type-icons";
+import { typeChart, Option, TypeRatio } from "./lib";
 
-type ElementType<T> = T extends (infer U)[] ? U : never;
-type TypeRatio = 0 | 0.5 | 1 | 2;
-type TypeChart = Omit<ElementType<typeof data>, "effect" | "damage"> & {
-  effect: TypeRatio[];
-  damage: TypeRatio[];
-};
-const typeChart = data as TypeChart[];
-
-export type Option = ElementType<typeof options>;
-export const options = typeChart.map(({ name }, id) => {
-  const value = name.toLowerCase();
-  return { id, value, label: name, color: `bg-${value}` };
-});
-
-export const RaidTypes = memo(function RaidTypes({ raidType }: { raidType: Option["label"] }) {
+export const RaidTypes = memo(function RaidTypes({ raidType }: { raidType: Option }) {
   const result: { pros: string[]; cons: string[] } = { pros: [], cons: [] };
-  const { damage } = typeChart.find(({ name }) => name == raidType)!;
+  const { damage } = typeChart.find(({ name }) => name == raidType.label)!;
   damage.map((v, i) => {
     if (v == 1) return;
     if (v > 1) result.pros.push(typeChart[i].name);

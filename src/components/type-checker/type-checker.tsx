@@ -1,49 +1,38 @@
-"use client";
-
 import "./style.css";
 import "./colors.css";
 import { useState, useEffect, useCallback } from "react";
-import { Select } from "@/components/select";
-import { options, Option, RaidTypes, TableHead, AllTableRows, SelectedRows } from "./elements";
+import { Select } from "@/components/select-state-is-array";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+
+import { RaidTypes, TableHead, AllTableRows, SelectedRows } from "./elements";
+import { Option, options } from "./lib";
 
 export function TypeChecker() {
   const [moveTypes, setMoveTypes] = useState<Option[]>([]);
-  const [raidData, setRaidData] = useState<JSX.Element | null>(null);
-  const [tableRows, setTableRows] = useState<JSX.Element | null>(<AllTableRows />);
+  const [raidType, setRaidType] = useState<Option>();
+
   const [isAll, setIsAll] = useState(true);
   const [colorMode, setColorMode] = useLocalStorage("colorMode");
 
   const handleRaidType = useCallback((option: Option) => {
-    if (option) setRaidData(<RaidTypes raidType={option.label} />);
+    if (option) setRaidType(option);
   }, []);
 
   const handleMoveTypes = useCallback((options: readonly Option[]) => {
     if (options) setMoveTypes([...options]);
   }, []);
 
-  const handleColorMode = () => {
-    if (moveTypes.length > 1) setColorMode(colorMode == "true" ? "false" : "true");
-  };
-
-  const handleShowAll = useCallback(() => {
-    setTableRows(<AllTableRows />);
-    setIsAll(true);
-  }, []);
+  const handleColorMode = useCallback(() => {
+    if (moveTypes.length > 1) setColorMode(String(!(colorMode == "true")));
+  }, [moveTypes, setColorMode, colorMode]);
 
   const handleShowChart = useCallback(() => {
-    setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />);
-    setIsAll(false);
-  }, [moveTypes, colorMode]);
+    if (moveTypes.length > 0) setIsAll(false);
+  }, [moveTypes]);
 
   useEffect(() => {
-    if (moveTypes.length > 0) {
-      setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />);
-      setIsAll(false);
-    } else {
-      setTableRows(<AllTableRows />);
-    }
-  }, [colorMode, moveTypes]);
+    setIsAll(!(moveTypes.length > 0));
+  }, [moveTypes]);
 
   return (
     <>
@@ -58,7 +47,7 @@ export function TypeChecker() {
       </div>
       <div className="col-span-3 md:col-span-2">
         <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium leading-tight">
-          {raidData}
+          {raidType && <RaidTypes raidType={raidType} />}
         </div>
       </div>
       <div>
@@ -90,7 +79,7 @@ export function TypeChecker() {
       <div>
         <button
           className={moveTypes.length == 0 || isAll ? "btn-disabled" : "btn-blue"}
-          onClick={handleShowAll}
+          onClick={() => setIsAll(true)}
         >
           Show All
         </button>
@@ -104,7 +93,11 @@ export function TypeChecker() {
               </div>
             </div>
             <TableHead />
-            {tableRows}
+            {isAll ? (
+              <AllTableRows />
+            ) : (
+              <SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />
+            )}
           </div>
         </div>
       </div>

@@ -1,10 +1,10 @@
-"use client";
-
 import "./style.css";
 import { useState, useRef, useEffect, useCallback } from "react";
-import type { SelectProps, SelectOption, OnChangeValue, Action } from "./utils";
-import { validate, isArray } from "./utils";
-import { XMarkIcon, ChevronDownIcon } from "./icons";
+import type { SelectProps, SelectOption, OnChangeValue, Action } from "./types";
+
+function validate<T>(state: unknown): state is SelectOption<T> | SelectOption<T>[] {
+  return Array.isArray(state) ? state.length > 0 : !!state;
+}
 
 export function Select<T, IsMulti extends boolean = false>({
   isMulti,
@@ -15,10 +15,11 @@ export function Select<T, IsMulti extends boolean = false>({
   defaultValue,
   onChange,
 }: SelectProps<SelectOption<T>, IsMulti>) {
-  const defaultState = (defaultValue ?? isMulti ? [] : null) as OnChangeValue<
+  const defaultState = (isMulti ? defaultValue ?? [] : defaultValue) as OnChangeValue<
     SelectOption<T>,
     IsMulti
   >;
+
   const [state, setState] = useState(defaultState);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -63,53 +64,68 @@ export function Select<T, IsMulti extends boolean = false>({
     [isMulti],
   );
 
-  const genMenuItem = useCallback(
-    (option: SelectOption<T>) => (
-      <div
-        key={option.value}
-        className={"select-menu-item"}
-        onClick={(e) => {
-          e.stopPropagation();
-          dispatch({ type: "SELECT", option });
-          setShowMenu(false);
-        }}
-      >
-        {option.label}
-      </div>
-    ),
-    [dispatch],
-  );
-
   useEffect(() => {
     if (onChange) onChange(state);
   }, [state, onChange]);
+
+  const MenuItems = () => {
+    function genMenuItem(option: SelectOption<T>) {
+      return (
+        <div
+          key={option.value}
+          className={"select-menu-item"}
+          onClick={(e) => {
+            e.stopPropagation();
+            dispatch({ type: "SELECT", option });
+            setShowMenu(false);
+          }}
+        >
+          {option.label}
+        </div>
+      );
+    }
+
+    if (!validate<T>(state)) return options.map(genMenuItem);
+    if (Array.isArray(state)) {
+      return options.map((option) => {
+        if (state.find((item) => item.value == option.value && item.label == option.label)) {
+          return;
+        }
+        return genMenuItem(option);
+      });
+    } else {
+      return options.map((option) => {
+        if (state.value === option.value && state.label === option.label) {
+          return;
+        }
+        return genMenuItem(option);
+      });
+    }
+  };
 
   return (
     <div className={"h-full w-full " + className}>
       <div className="select-body" onClick={() => setShowMenu(true)}>
         <div className="select-content peer">
           {validate<T>(state) ? (
-            isArray<T>(state) ? (
+            Array.isArray(state) ? (
               <div className="flex gap-x-1.5">
-                {state.map((option) => (
+                {state.map((item) => (
                   <div
-                    key={option.value}
-                    className={"select-item is-multi " + (option.color ?? themeColor)}
+                    key={item.value}
+                    className={"select-item is-multi " + (item.color ?? themeColor)}
                     onClick={(e) => {
                       e.stopPropagation();
-                      dispatch({ type: "DESELECT", option });
+                      dispatch({ type: "DESELECT", option: item });
                     }}
                   >
-                    <div>{option.label}</div>
+                    <div>{item.label}</div>
                     <XMarkIcon className="my-auto w-3 stroke-2" />
                   </div>
                 ))}
               </div>
             ) : (
-              <div
-                key={state.value}
-                className={"select-item is-unique " + (state.color ?? themeColor)}
-              >
+              <div className={"select-item is-unique " + (state.color ?? themeColor)}>
                 {state.label}
               </div>
             )
@@ -130,27 +146,41 @@ export function Select<T, IsMulti extends boolean = false>({
       </div>
       {showMenu && (
         <div ref={insideRef} className="select-menu-body">
-          {validate<T>(state)
-            ? isArray<T>(state)
-              ? options
-                  .map((option) => {
-                    const { value, label } = option;
-                    if (state.find(({ value: v, label: l }) => v === value && l === label))
-                      return;
-                    return genMenuItem(option);
-                  })
-                  .filter((x): x is Exclude<typeof x, undefined> => x !== undefined)
-              : options
-                  .map((option) => {
-                    const { value, label } = option;
-                    const { value: v, label: l } = state;
-                    if (v === value && l === label) return;
-                    return genMenuItem(option);
-                  })
-                  .filter((x): x is Exclude<typeof x, undefined> => x !== undefined)
-            : options.map(genMenuItem)}
+          <MenuItems />
         </div>
       )}
     </div>
+  );
+}
+
+function XMarkIcon({ className, onClick }: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={className}
+      onClick={onClick}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  );
+}
+
+function ChevronDownIcon({ className, onClick }: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className={className}
+      onClick={onClick}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+    </svg>
   );
 }
