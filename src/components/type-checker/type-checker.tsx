@@ -5,13 +5,14 @@ import "./colors.css";
 import { useState, useEffect, useCallback } from "react";
 import { Select } from "@/components/select";
 import { options, Option, RaidTypes, TableHead, AllTableRows, SelectedRows } from "./elements";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export function TypeChecker() {
   const [moveTypes, setMoveTypes] = useState<Option[]>([]);
   const [raidData, setRaidData] = useState<JSX.Element | null>(null);
   const [tableRows, setTableRows] = useState<JSX.Element | null>(<AllTableRows />);
-  const [colorMode, setColorMode] = useState(false);
   const [isAll, setIsAll] = useState(true);
+  const [colorMode, setColorMode] = useLocalStorage("colorMode");
 
   const handleRaidType = useCallback((option: Option) => {
     if (option) setRaidData(<RaidTypes raidType={option.label} />);
@@ -21,9 +22,9 @@ export function TypeChecker() {
     if (options) setMoveTypes([...options]);
   }, []);
 
-  const handleColorMode = useCallback(() => {
-    if (moveTypes.length > 0) setColorMode((b) => !b);
-  }, [moveTypes]);
+  const handleColorMode = () => {
+    if (moveTypes.length > 1) setColorMode(colorMode == "true" ? "false" : "true");
+  };
 
   const handleShowAll = useCallback(() => {
     setTableRows(<AllTableRows />);
@@ -31,13 +32,13 @@ export function TypeChecker() {
   }, []);
 
   const handleShowChart = useCallback(() => {
-    setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode} />);
+    setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />);
     setIsAll(false);
   }, [moveTypes, colorMode]);
 
   useEffect(() => {
     if (moveTypes.length > 0) {
-      setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode} />);
+      setTableRows(<SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />);
       setIsAll(false);
     } else {
       setTableRows(<AllTableRows />);

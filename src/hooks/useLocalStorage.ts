@@ -19,5 +19,5 @@ export const useLocalStorage = (key: string) => {
 
   const getSnapshot = () => localStorage.getItem(key) || "";
 
-  return [useSyncExternalStore(subscribe, getSnapshot), setValue] as const;
+  return [useSyncExternalStore(subscribe, getSnapshot, () => null), setValue] as const;
 };

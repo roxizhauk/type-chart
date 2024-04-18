@@ -2,7 +2,8 @@
 
 import "./style.css";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { SelectProps, SelectOption, OnChangeValue, Action, validate, isArray } from "./utils";
+import type { SelectProps, SelectOption, OnChangeValue, Action } from "./utils";
+import { validate, isArray } from "./utils";
 import { XMarkIcon, ChevronDownIcon } from "./icons";
 
 export function Select<T, IsMulti extends boolean = false>({
@@ -14,7 +15,7 @@ export function Select<T, IsMulti extends boolean = false>({
   defaultValue,
   onChange,
 }: SelectProps<SelectOption<T>, IsMulti>) {
-  const defaultState = (isMulti ? defaultValue ?? [] : defaultValue) as OnChangeValue<
+  const defaultState = (defaultValue ?? isMulti ? [] : null) as OnChangeValue<
     SelectOption<T>,
     IsMulti
   >;
@@ -23,48 +24,13 @@ export function Select<T, IsMulti extends boolean = false>({
 
   const insideRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const element = insideRef.current;
-    if (!element) return;
     function handleClickOutside(e: MouseEvent) {
-      if (!showMenu || element?.contains(e.target as Node)) return;
+      if (!showMenu || insideRef.current?.contains(e.target as Node)) return;
       setShowMenu(false); // close menu when clicked outside
     }
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("click", handleClickOutside, { capture: true });
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [insideRef, showMenu]);
-
-  // const reducer: React.Reducer<
-  //   OnChangeValue<SelectOption<T>, IsMulti>,
-  //   Action<SelectOption<T>>
-  // > = (state, { type, option }) => {
-  //   let newState = undefined;
-  //   if (isMulti) {
-  //     newState = Array.isArray(state) ? [...state] : [];
-  //     switch (type) {
-  //       case "SELECT":
-  //         newState = [...newState, option!];
-  //         break;
-  //       case "DESELECT":
-  //         newState = newState.filter(({ value }) => value !== option!.value);
-  //         break;
-  //       case "CLEAR":
-  //         newState = [];
-  //         break;
-  //       default:
-  //         newState = [];
-  //         break;
-  //     }
-  //   } else {
-  //     switch (type) {
-  //       case "SELECT":
-  //         newState = option!;
-  //         break;
-  //     }
-  //   }
-  //   onChange(newState as OnChangeValue<SelectOption<T>, IsMulti>);
-  //   return newState as OnChangeValue<SelectOption<T>, IsMulti>;
-  // };
-  // const [state, dispatch] = useReducer(reducer, defaultState);
+  }, [showMenu]);
 
   const dispatch = useCallback(
     ({ type, option }: Action<SelectOption<T>>) =>
@@ -105,6 +71,7 @@ export function Select<T, IsMulti extends boolean = false>({
         onClick={(e) => {
           e.stopPropagation();
           dispatch({ type: "SELECT", option });
+          setShowMenu(false);
         }}
       >
         {option.label}
@@ -161,7 +128,7 @@ export function Select<T, IsMulti extends boolean = false>({
         )}
         <ChevronDownIcon className="show-menu-icon" />
       </div>
-      {showMenu && ( // css => showMenu ? "" : "hidden" にすると常時 useEffect が作動する
+      {showMenu && (
         <div ref={insideRef} className="select-menu-body">
           {validate<T>(state)
             ? isArray<T>(state)
