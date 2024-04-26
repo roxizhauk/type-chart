@@ -38,7 +38,7 @@
 }
 @layer components {
   .btn {
-    @apply h-full w-full cursor-pointer rounded-md px-2 py-1 text-center
+    @apply z-20 h-full w-full cursor-pointer rounded-md px-2 py-1 text-center
     text-sm text-white shadow transition duration-300
     hover:bg-opacity-70
     focus:outline-none focus-visible:outline-none
