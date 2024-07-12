@@ -1,10 +1,10 @@
-import "./style.css";
-import "./colors.css";
-import { useState, useEffect, useCallback } from "react";
-import { Select } from "@/components/select-state-is-array";
+import { Select } from "@/components/array-state-select";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
+import { useCallback, useEffect, useState } from "react";
+import "./colors.css";
+import "./style.css";
 
-import { RaidTypes, TableHead, AllTableRows, SelectedRows } from "./elements";
+import { AllTableRows, RaidTypes, SelectedRows, TableHead } from "./elements";
 import { Option, options } from "./lib";
 
 export function TypeChecker() {
@@ -41,12 +41,12 @@ export function TypeChecker() {
           placeholder="Select Raid Type"
           options={options}
           onChange={handleRaidType}
-          className="drop-shadow"
+          className="h-9 drop-shadow"
           elementId="select1"
         />
       </div>
       <div className="col-span-3 md:col-span-2">
-        <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap text-sm font-medium leading-tight">
+        <div className="ml-1 flex flex-col overflow-x-auto whitespace-nowrap font-medium leading-tight">
           {raidType && <RaidTypes raidType={raidType} />}
         </div>
       </div>
@@ -64,7 +64,7 @@ export function TypeChecker() {
           placeholder="Select Move Types"
           options={options}
           onChange={handleMoveTypes}
-          className="drop-shadow"
+          className="h-9 drop-shadow"
           elementId="select2"
         />
       </div>

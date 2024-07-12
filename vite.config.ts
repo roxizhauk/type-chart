@@ -4,6 +4,6 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: "/",
+  base: "/", // add "/type-chart" for GitHub page
   plugins: [react(), tsconfigPaths()],
 });

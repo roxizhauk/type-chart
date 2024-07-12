@@ -1,6 +1,6 @@
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./style.css";
-import { useState, useRef, useEffect, useCallback } from "react";
-import type { SelectProps, SelectOption, Action, OnChangeValue } from "./types";
+import type { Action, OnChangeValue, SelectOption, SelectProps } from "./types";
 
 function init<T>(
   defaultValue: SelectOption<T>[] | SelectOption<T> | undefined,
@@ -105,7 +105,7 @@ export function Select<T, IsMulti extends boolean = false>({
           {state.length > 0 ? (
             <SelectedItems />
           ) : (
-            <div className="whitespace-nowrap text-sm">{placeholder}</div>
+            <div className="select-placeholder">{placeholder}</div>
           )}
         </div>
         {isMulti && state.length > 0 && (
