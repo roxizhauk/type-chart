@@ -30,9 +30,7 @@ export function TypeChecker() {
     if (moveTypes.length > 0) setIsAll(false);
   }, [moveTypes]);
 
-  useEffect(() => {
-    setIsAll(!(moveTypes.length > 0));
-  }, [moveTypes]);
+  useEffect(() => setIsAll(!(moveTypes.length > 0)), [moveTypes]);
 
   return (
     <>
