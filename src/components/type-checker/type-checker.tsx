@@ -12,7 +12,7 @@ export function TypeChecker() {
   const [raidType, setRaidType] = useState<Option>();
 
   const [isAll, setIsAll] = useState(true);
-  const [colorMode, setColorMode] = useLocalStorage("colorMode", (v) => v === "true");
+  const [colorMode, setColorMode] = useLocalStorage<boolean>("colorMode");
 
   const handleRaidType = useCallback((option: Option) => {
     if (option) setRaidType(option);
