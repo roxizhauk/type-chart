@@ -12,7 +12,7 @@ export function TypeChecker() {
   const [raidType, setRaidType] = useState<Option>();
 
   const [isAll, setIsAll] = useState(true);
-  const [colorMode, setColorMode] = useLocalStorage("colorMode");
+  const [colorMode, setColorMode] = useLocalStorage("colorMode", (v) => v === "true");
 
   const handleRaidType = useCallback((option: Option) => {
     if (option) setRaidType(option);
@@ -23,7 +23,7 @@ export function TypeChecker() {
   }, []);
 
   const handleColorMode = useCallback(() => {
-    if (moveTypes.length > 1) setColorMode(String(!(colorMode == "true")));
+    if (moveTypes.length > 1) setColorMode(!colorMode);
   }, [moveTypes, setColorMode, colorMode]);
 
   const handleShowChart = useCallback(() => {
@@ -91,11 +91,7 @@ export function TypeChecker() {
               </div>
             </div>
             <TableHead />
-            {isAll ? (
-              <AllTableRows />
-            ) : (
-              <SelectedRows moveTypes={moveTypes} colorMode={colorMode == "true"} />
-            )}
+            {isAll ? <AllTableRows /> : <SelectedRows {...{ moveTypes, colorMode }} />}
           </div>
         </div>
       </div>
