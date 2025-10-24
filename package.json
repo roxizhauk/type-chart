@@ -37,5 +37,13 @@
 	},
 	"dependencies": {
 		"@lucide/svelte": "^0.546.0"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	},
+	"engines": {
+		"node": ">=22.19.0"
 	}
 }
