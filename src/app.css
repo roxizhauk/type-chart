@@ -1,7 +1,8 @@
 @import 'tailwindcss';
 
-html {
-	@apply overscroll-none;
+html,
+body {
+	@apply h-full overscroll-none;
 }
 
 body {
@@ -37,10 +38,6 @@ main {
 
 .btn-blue {
 	@apply btn bg-blue-500;
-}
-
-.btn-pink {
-	@apply btn bg-pink-400;
 }
 
 .btn-light {

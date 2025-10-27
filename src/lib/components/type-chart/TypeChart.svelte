@@ -46,6 +46,7 @@
 		}
 		return moveTypeResult;
 	});
+
 	let raidType: Option[] = $state([]);
 	let raidTypeResult = $derived.by(() => {
 		let raidTypeResult: { pros: string[]; cons: string[] } = { pros: [], cons: [] };
@@ -66,7 +67,9 @@
 	}
 
 	function handleShowChart() {
-		if (moveTypes.length > 0) isAll = false;
+		if (moveTypes.length > 0) {
+			isAll = false;
+		}
 	}
 
 	$effect(() => {
@@ -135,7 +138,10 @@
 	/>
 </div>
 <div class="col-span-3 md:col-span-2">
-	<div class="ml-1 flex flex-col overflow-x-auto leading-tight font-medium whitespace-nowrap">
+	<div
+		aria-label="Raid Type Effectiveness"
+		class="ml-1 flex flex-col overflow-x-auto leading-tight font-medium whitespace-nowrap"
+	>
 		{#if raidType}
 			<span class="text-good">{raidTypeResult.pros.join(' ')}</span>
 			<span class="text-bad">{raidTypeResult.cons.join(' ')}</span>
@@ -144,6 +150,7 @@
 </div>
 <div>
 	<button
+		aria-label="Color Mode Button"
 		class={moveTypes.length < 2 || isAll ? 'btn-disabled' : 'btn-light'}
 		onclick={handleColorMode}
 	>
@@ -161,6 +168,7 @@
 </div>
 <div>
 	<button
+		aria-label="Show Chart Button"
 		class={moveTypes.length > 0 && isAll ? 'btn-blue' : 'btn-disabled'}
 		onclick={handleShowChart}
 	>
@@ -169,6 +177,7 @@
 </div>
 <div>
 	<button
+		aria-label="Show All Button"
 		class={moveTypes.length == 0 || isAll ? 'btn-disabled' : 'btn-blue'}
 		onclick={() => {
 			isAll = true;
@@ -178,7 +187,7 @@
 	</button>
 </div>
 <div class="col-span-4">
-	<div class="w-full overflow-x-auto">
+	<div aria-label="Type Chart Table" class="w-full overflow-x-auto">
 		<div class="grid-table grid grid-cols-19">
 			<div>
 				<div>
