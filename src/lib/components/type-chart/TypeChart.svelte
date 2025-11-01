@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Select from '$lib/components/ArraySelect.svelte';
-	import { loadLS, saveLS } from '$lib/utils';
+	import { loadLS, saveLS } from '$lib/ls';
 	import { onMount } from 'svelte';
 	import data from './data.json';
 	import './style.css';
